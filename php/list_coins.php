@@ -1,24 +1,16 @@
 <?php
-// Database connection details
-$servername = "localhost";
-$username = "root";
-$password = ""; // Replace with your database password
-$dbname = "bincoin"; // Replace with your database name
+require 'constants.php';
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
 
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Query to get all coins
 $sql = "SELECT id, country, year, currency, value FROM coin";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
-    // Fetch all coins into an array
     $coins = $result->fetch_all(MYSQLI_ASSOC);
 } else {
     $coins = [];
@@ -34,8 +26,19 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Coins</title>
     <link rel="stylesheet" href="../css/list_coins.css">
+    <link rel="stylesheet" href="../css/navbar.css">
 </head>
 <body>
+<header>
+        <div class="navbar">
+            <div class="title">BinCoin</div>
+            <div class="nav-buttons">
+                <a href="list_coins.php">Home</a>
+                <a href="trade.php">Trade</a>
+                <a href="user_profile.php?user=<?php echo htmlspecialchars($CURRENTUSER); ?>">Profile</a>
+            </div>
+        </div>
+    </header>
     <div class="container">
         <h1>Available Coins</h1>
         <?php if (count($coins) > 0): ?>

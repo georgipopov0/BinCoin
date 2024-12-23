@@ -1,18 +1,12 @@
 <?php
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "bincoin";
+require 'constants.php';
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
 
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch user data
 $userName = isset($_GET['user']) ? $_GET['user'] : 'Alice'; // Default to Alice
 $userQuery = $conn->prepare("SELECT * FROM `user` WHERE `name` = ?");
 $userQuery->bind_param("s", $userName);
@@ -24,7 +18,6 @@ if (!$user) {
     die("User not found.");
 }
 
-// Fetch user collections
 $collectionsQuery = $conn->prepare("
     SELECT cc.id AS collection_id, cc.access, ct.name AS tag 
     FROM `coin_collection` cc 
@@ -41,7 +34,6 @@ while ($row = $collectionsResult->fetch_assoc()) {
     $collections[$row['collection_id']]['tags'][] = $row['tag'];
 }
 
-// Fetch coins in collections
 foreach ($collections as $collectionId => &$collection) {
     $coinsQuery = $conn->prepare("
         SELECT c.id AS coin_id, c.cost, c.value, c.currency, c.country, c.year, p.name AS period 
@@ -68,11 +60,18 @@ foreach ($collections as $collectionId => &$collection) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
     <link rel="stylesheet" href="../css/user_profile.css">
+    <link rel="stylesheet" href="../css/navbar.css">
 </head>
 <body>
     <header>
-        <h1>User Profile</h1>
-        <p>View detailed information about users and their collections.</p>
+        <div class="navbar">
+            <div class="title">BinCoin</div>
+            <div class="nav-buttons">
+                <a href="list_coins.php">Home</a>
+                <a href="trade.php">Trade</a>
+                <a href="user_profile.php?user=<?php echo htmlspecialchars($CURRENTUSER); ?>">Profile</a>
+            </div>
+        </div>
     </header>
     <div class="profile-container">
         <h2>User: <?php echo htmlspecialchars($user['name']); ?></h2>
@@ -88,7 +87,7 @@ foreach ($collections as $collectionId => &$collection) {
                     <span class="tag"><?php echo htmlspecialchars($tag); ?></span>
                 <?php endforeach; ?>
             </div>
-            <div class="table-container">
+            <div  class="table-container">
                 <table>
                     <thead>
                         <tr>
@@ -116,6 +115,7 @@ foreach ($collections as $collectionId => &$collection) {
             </div>
         </div>
         <?php endforeach; ?>
+        <a href="logout.php">Logout</a>
     </div>
 </body>
 </html>
