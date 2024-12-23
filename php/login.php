@@ -7,30 +7,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $_SESSION['username'] = $username;
 
-    header('Location: user_profile.php?user='.$username);
+    header('Location: user_profile.php?user=' . $username);
     $CURRENTUSER = $username;
     exit;
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Set Username</title>
+    <link rel="stylesheet" href="../css/theme.css">
     <link rel="stylesheet" href="../css/navbar.css">
 </head>
+
 <body>
-    <header>
-        <div class="navbar">
-            <div class="title">BinCoin</div>
-            <div class="nav-buttons">
-                <a href="list_coins.php">Home</a>
-                <a href="trade.php">Trade</a>
-                <a href="user_profile.php?user=<?php echo htmlspecialchars($CURRENTUSER); ?>">Profile</a>
-            </div>
-        </div>
-    </header>
+    <?php include '../components/header.php'; ?>
+
     <h1>Set Username</h1>
     <form method="POST">
         <label for="username">Enter your username:</label>
@@ -38,4 +33,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit">Submit</button>
     </form>
 </body>
+
 </html>

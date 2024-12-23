@@ -40,24 +40,19 @@ $conn->close();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coin Details</title>
+    <link rel="stylesheet" href="../css/theme.css">
     <link rel="stylesheet" href="../css/coin.css">
     <link rel="stylesheet" href="../css/navbar.css">
 </head>
+
 <body>
-    <header>
-        <div class="navbar">
-            <div class="title">BinCoin</div>
-            <div class="nav-buttons">
-                <a href="list_coins.php">Home</a>
-                <a href="trade.php">Trade</a>
-                <a href="user_profile.php?user=<?php echo htmlspecialchars($CURRENTUSER); ?>">Profile</a>
-            </div>
-        </div>
-    </header>
+    <?php include '../components/header.php'; ?>
+
     <div class="coin-container">
         <h1>Coin Details</h1>
         <div class="coin-details">
@@ -75,4 +70,5 @@ $conn->close();
         </div>
     </div>
 </body>
+
 </html>

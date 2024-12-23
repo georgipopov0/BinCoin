@@ -1,37 +1,74 @@
+/* navbar.css */
+
+/* Ensure the header stays at the top */
 header {
-    background-color: #333;
-    color: #fff;
-    padding: 10px 20px;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    background-color: #333; /* Dark background color */
+    color: #fff; /* White text color */
+    padding: 10px 20px; /* Add padding for spacing */
+    position: sticky; /* Makes the header stick to the top */
+    top: 0; /* Aligns the header to the top of the viewport */
+    z-index: 1000; /* Ensures it stays above other content */
+    width: 100%; /* Makes the header span the entire width */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
+    box-sizing: border-box; /* Ensures padding is included in the width */
 }
 
+/* Navbar styling */
 .navbar {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    max-width: 1200px !important;
-    margin: 0 auto !important;
+    display: flex; /* Makes items align horizontally */
+    justify-content: space-between; /* Spaces out title and nav buttons */
+    align-items: center; /* Vertically centers content */
+    max-width: 1200px; /* Optional: Limits the width of the navbar */
+    margin: 0 auto; /* Centers the navbar */
+    width: 100%; /* Ensures the navbar takes full width */
+    box-sizing: border-box; /* Ensures padding is included in the width */
 }
 
+/* Title styling */
 .navbar .title {
-    font-size: 1.5em !important;
-    font-weight: bold !important;
-    color: gold !important;
+    font-size: 1.5em; /* Larger font size for the title */
+    font-weight: bold; /* Bold text */
+    color: gold; /* Gold color for the title */
 }
 
+/* Navigation buttons styling */
 .navbar .nav-buttons {
-    display: flex !important;
+    display: flex; /* Aligns nav buttons horizontally */
 }
 
 .navbar .nav-buttons a {
-    color: #fff !important;
-    text-decoration: none !important;
-    margin: 0 15px !important;
-    font-size: 1.1em !important;
+    color: #fff; /* White text color */
+    text-decoration: none; /* Removes underline */
+    margin: 0 15px; /* Adds space between links */
+    font-size: 1.1em; /* Slightly larger font size */
+    transition: color 0.3s ease, text-decoration 0.3s ease; /* Smooth hover effect */
 }
 
 .navbar .nav-buttons a:hover {
-    text-decoration: underline !important;
+    text-decoration: underline; /* Adds underline on hover */
+    color: #ddd; /* Changes color on hover */
+}
+
+/* coin.css */
+/* Add any necessary styles for the coin-container and other elements here */
+.coin-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.coin-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.image-section img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.info-section {
+    flex: 1;
 }
