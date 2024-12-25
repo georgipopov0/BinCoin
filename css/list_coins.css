@@ -2,10 +2,12 @@
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 90%;
-    max-width: 800px;
     text-align: center;
+
+    max-width: 1200px;
+    margin: 0 auto;
+    box-sizing: border-box;
 }
 
 h1 {
@@ -38,4 +40,54 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination a,
+.pagination span {
+    margin: 0 5px;
+    padding: 8px 12px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    color: #333;
+}
+
+.pagination a:hover {
+    background-color: #f0f0f0;
+}
+
+.pagination .current {
+    background-color: #333;
+    color: #fff;
+    border-color: #333;
+}
+
+.search-form {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.search-form input[type="text"] {
+    padding: 8px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search-form input[type="submit"] {
+    padding: 8px 16px;
+    border: none;
+    background-color: #333;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-form input[type="submit"]:hover {
+    background-color: #555;
 }
