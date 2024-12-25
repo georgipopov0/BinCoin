@@ -4,6 +4,7 @@ CREATE TABLE `user` (
 
 CREATE TABLE `coin_collection` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(255) NOT NULL,
     `user_name` VARCHAR(255) NOT NULL,
     `access` VARCHAR(255) NOT NULL,
     FOREIGN KEY (`user_name`) REFERENCES `user`(`name`) ON DELETE CASCADE

@@ -12,17 +12,17 @@ INSERT INTO `user` (`name`) VALUES
 ('Jack');
 
 -- Fill the `coin_collection` table
-INSERT INTO `coin_collection` (`user_name`, `access`) VALUES 
-('Alice', 'private'),
-('Bob', 'public'),
-('Charlie', 'private'),
-('Diana', 'public'),
-('Edward', 'private'),
-('Frank', 'private'),
-('Grace', 'public'),
-('Hannah', 'private'),
-('Ian', 'public'),
-('Jack', 'private');
+INSERT INTO `coin_collection` (`user_name`, `name`,`access`) VALUES 
+('Alice', 'A' ,'private'),
+('Bob','B' ,'public'),
+('Charlie', 'A', 'private'),
+('Diana', 'A', 'public'),
+('Edward', 'A', 'private'),
+('Frank', 'A', 'private'),
+('Grace', 'A', 'public'),
+('Hannah', 'A', 'private'),
+('Ian', 'A', 'public'),
+('Jack', 'A', 'private');
 
 -- Fill the `coin` table
 INSERT INTO `coin` (`cost`, `value`, `currency`, `front_path`, `back_path`, `country`, `year`, `coin_collection_id`) VALUES 
