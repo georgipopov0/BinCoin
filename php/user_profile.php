@@ -51,6 +51,50 @@ foreach ($collections as $collectionId => &$collection) {
         $collection['coins'][] = $row;
     }
 }
+
+if (isset($_GET['export']) && $_GET['export'] === 'csv') {
+    header("Content-Type: text/csv");
+    header("Content-Disposition: attachment; filename=coins.csv");
+    $output = fopen("php://output", "w");
+    fputcsv($output, ['ID', 'Cost', 'Value', 'Currency', 'Front Path', 'Back Path', 'Country', 'Year', 'Coin Collection ID']);
+
+    $result = $conn->query("SELECT * FROM `coin`");
+    while ($row = $result->fetch_assoc()) {
+        fputcsv($output, $row);
+    }
+
+    fclose($output);
+    exit;
+}
+
+// Export to XLS
+if (isset($_GET['export']) && $_GET['export'] === 'xls') {
+    header("Content-Type: application/vnd.ms-excel");
+    header("Content-Disposition: attachment; filename=coins.xls");
+
+    echo "<table border='1'>";
+    echo "<tr style='background-color: #007BFF; color: #FFFFFF; font-weight: bold;'>";
+    echo "<th>ID</th><th>Cost</th><th>Value</th><th>Currency</th><th>Front Path</th><th>Back Path</th><th>Country</th><th>Year</th><th>Coin Collection ID</th>";
+    echo "</tr>";
+
+    $result = $conn->query("SELECT * FROM `coin`");
+    while ($row = $result->fetch_assoc()) {
+        echo "<tr>";
+        echo "<td>{$row['id']}</td>";
+        echo "<td>{$row['cost']}</td>";
+        echo "<td>{$row['value']}</td>";
+        echo "<td>{$row['currency']}</td>";
+        echo "<td>{$row['front_path']}</td>";
+        echo "<td>{$row['back_path']}</td>";
+        echo "<td>{$row['country']}</td>";
+        echo "<td>{$row['year']}</td>";
+        echo "<td>{$row['coin_collection_id']}</td>";
+        echo "</tr>";
+    }
+
+    echo "</table>";
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -110,6 +154,15 @@ foreach ($collections as $collectionId => &$collection) {
                 </div>
             </div>
         <?php endforeach; ?>
+        <div class="export-container">
+        <div class="dropdown">
+            <button class="export-btn">Export</button>
+            <div class="dropdown-content">
+                <a href="user_profile.php?export=csv">To .CSV</a>
+                <a href="user_profile.php?export=xls">To .XLS</a>
+                </div>
+            </div>
+        </div>
         <a href="logout.php">Logout</a>
     </div>
 </body>
