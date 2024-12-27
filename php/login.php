@@ -8,7 +8,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['username'] = $username;
 
     header('Location: user_profile.php?user=' . $username);
-    $CURRENTUSER = $username;
     exit;
 }
 ?>

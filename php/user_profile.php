@@ -15,7 +15,7 @@ $userResult = $userQuery->get_result();
 $user = $userResult->fetch_assoc();
 
 if (!$user) {
-    die("User not found.");
+    header('Location: login.php');
 }
 
 $collectionsQuery = $conn->prepare("

@@ -4,7 +4,7 @@ session_start();
 
 session_unset();
 session_destroy();
-$CURRENTUSER = "None";
+$_SESSION['username'] = "";
 header('Location: login.php');
 exit;
 ?>

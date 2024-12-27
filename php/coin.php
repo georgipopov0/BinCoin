@@ -164,7 +164,7 @@ function verify_image($path) {
                 <!-- Optionally, add more details here -->
             </div>
         </div>
-        <a href="coins.php" class="back-button">← Back to Coins List</a>
+        <a href="dashboard.php" class="back-button">← Back to Coins List</a>
     </div>
 </body>
 
