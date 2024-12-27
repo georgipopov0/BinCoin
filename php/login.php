@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($stmt->num_rows === 1) {
             // User exists, set session
-            $_SESSION['user_name'] = $name;
+            $_SESSION['username'] = $name;
             header("Location: collections.php");
             exit();
         } else {
