@@ -1,5 +1,5 @@
 <?php
-// collections.php
+// public_collections.php
 
 session_start();
 
@@ -27,8 +27,8 @@ if ($conn->connect_error) {
     die("Connection failed: " . htmlspecialchars($conn->connect_error));
 }
 
-// Build the WHERE clause based on filters
-$where_clauses = [];
+// Build the WHERE clause based on the search filter
+$where_clauses = ["`access` = 'public'"];
 $params = [];
 $types = '';
 
@@ -38,18 +38,16 @@ if ($search !== '') {
     $types .= 's';
 }
 
+
 if ($show_my_collections) {
     $where_clauses[] = "`user_name` = ?";
     $params[] = $_SESSION['username'];
     $types .= 's';
 }
 
-$where_sql = '';
-if (count($where_clauses) > 0) {
-    $where_sql = "WHERE " . implode(" AND ", $where_clauses);
-}
+$where_sql = "WHERE " . implode(" AND ", $where_clauses);
 
-// Get total number of collections for pagination
+// Get total number of public collections for pagination
 $count_sql = "SELECT COUNT(*) FROM `coin_collection` $where_sql";
 $stmt_count = $conn->prepare($count_sql);
 if ($stmt_count) {
@@ -66,7 +64,7 @@ if ($stmt_count) {
 
 $total_pages = ceil($total_collections / $results_per_page);
 
-// Fetch collections based on filters and pagination
+// Fetch public collections based on filters and pagination
 $sql = "SELECT `id`, `name`, `access`, `created_at` FROM `coin_collection` $where_sql ORDER BY `created_at` DESC LIMIT ? OFFSET ?";
 $stmt = $conn->prepare($sql);
 if ($stmt) {
@@ -89,7 +87,6 @@ if ($stmt) {
 
 $conn->close();
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -222,7 +219,9 @@ $conn->close();
             <!-- Search Filter -->
             <div class="search-box">
                 <form action="collections.php" method="GET">
-                    <input type="text" name="search" placeholder="Search Collections..." value="<?= htmlspecialchars($search); ?>" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                    <input type="text" name="search" placeholder="Search Collections..."
+                        value="<?= htmlspecialchars($search); ?>"
+                        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
                 </form>
             </div>
 
@@ -240,7 +239,8 @@ $conn->close();
                     <?php endforeach; ?>
 
                     <label for="show_my_collections">Show Only My Collections</label>
-                    <input type="checkbox" id="show_my_collections" name="show_my_collections" value="1" <?= $show_my_collections ? 'checked' : ''; ?> onchange="this.form.submit()">
+                    <input type="checkbox" id="show_my_collections" name="show_my_collections" value="1"
+                        <?= $show_my_collections ? 'checked' : ''; ?> onchange="this.form.submit()">
                 </form>
             </div>
         </div>
@@ -253,7 +253,8 @@ $conn->close();
                         <h2><?= htmlspecialchars($collection['name']); ?></h2>
                         <p><?= nl2br(htmlspecialchars($collection['access'])); ?></p>
                         <p><strong>Created At:</strong> <?= htmlspecialchars($collection['created_at']); ?></p>
-                        <a href="collection_details.php?collection_id=<?= htmlspecialchars($collection['id']); ?>">View Collection</a>
+                        <a href="collection_details.php?collection_id=<?= htmlspecialchars($collection['id']); ?>">View
+                            Collection</a>
                     </div>
                 <?php endforeach; ?>
             </div>
