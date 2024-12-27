@@ -1,10 +1,11 @@
 <?php
-// login.php
+// register.php
 
 session_start();
 require 'constants.php';
 
 $errors = [];
+$success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name']);
@@ -23,19 +24,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             die("Connection failed: " . htmlspecialchars($conn->connect_error));
         }
 
-        // Check if user exists
+        // Check if user already exists
         $stmt = $conn->prepare("SELECT `name` FROM `user` WHERE `name` = ?");
         $stmt->bind_param("s", $name);
         $stmt->execute();
         $stmt->store_result();
 
-        if ($stmt->num_rows === 1) {
-            // User exists, set session
-            $_SESSION['user_name'] = $name;
-            header("Location: collections.php");
-            exit();
+        if ($stmt->num_rows > 0) {
+            $errors[] = "User already exists.";
         } else {
-            $errors[] = "User does not exist. Please <a href='register.php'>register</a>.";
+            // Insert new user
+            $stmt_insert = $conn->prepare("INSERT INTO `user` (`name`) VALUES (?)");
+            $stmt_insert->bind_param("s", $name);
+
+            if ($stmt_insert->execute()) {
+                $success = "Registration successful! You can now <a href='login.php'>login</a>.";
+            } else {
+                $errors[] = "Registration failed: " . htmlspecialchars($stmt_insert->error);
+            }
+
+            $stmt_insert->close();
         }
 
         $stmt->close();
@@ -48,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Register</title>
     <link rel="stylesheet" href="../css/theme.css">
     <link rel="stylesheet" href="../css/navbar.css">
 </head>
@@ -56,20 +64,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php include '../components/header.php'; ?>
 
     <div class="container">
-        <h1>Login</h1>
+        <h1>Register</h1>
+
+        <!-- Display Success Message -->
+        <?php if ($success): ?>
+            <div class="success-message">
+                <?= $success; ?>
+            </div>
+        <?php endif; ?>
 
         <!-- Display Error Messages -->
         <?php if (!empty($errors)): ?>
             <div class="error-messages">
                 <ul>
                     <?php foreach ($errors as $error): ?>
-                        <li><?= $error; ?></li>
+                        <li><?= htmlspecialchars($error); ?></li>
                     <?php endforeach; ?>
                 </ul>
             </div>
         <?php endif; ?>
 
-        <form action="login.php" method="POST">
+        <form action="register.php" method="POST">
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" value="<?= isset($name) ? htmlspecialchars($name) : ''; ?>" required>
@@ -77,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <!-- Additional fields like password can be added here -->
 
-            <input type="submit" value="Login">
+            <input type="submit" value="Register">
         </form>
     </div>
 </body>

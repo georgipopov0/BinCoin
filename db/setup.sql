@@ -7,8 +7,10 @@ CREATE TABLE `coin_collection` (
     `name` VARCHAR(255) NOT NULL,
     `user_name` VARCHAR(255) NOT NULL,
     `access` VARCHAR(255) NOT NULL,
+    `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (`user_name`) REFERENCES `user`(`name`) ON DELETE CASCADE
 );
+
 
 CREATE TABLE `coin` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
