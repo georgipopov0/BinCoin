@@ -1,5 +1,7 @@
 <?php
 require "constants.php";
+include "./auth.php";
+
 session_start();
 
 session_unset();

@@ -1,4 +1,6 @@
 <?php
+
+include "./auth.php";
 require 'constants.php';
 
 if (session_status() === PHP_SESSION_NONE) {

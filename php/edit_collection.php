@@ -1,6 +1,8 @@
 <?php
 // edit_collection.php
 
+include "./auth.php";
+
 session_start();
 
 // Check if user is logged in

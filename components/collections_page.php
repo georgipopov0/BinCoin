@@ -1,53 +1,60 @@
+<?php
+// collections_page.php
+
+// Ensure this file is included after `public_collections.php` which sets up the $collections array
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coin Collections</title>
+    <title>Collections</title>
     <!-- Link to external CSS files -->
-    <link rel="stylesheet" href="../css/theme.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/collections.css">
     <link rel="stylesheet" href="../css/navbar.css">
-    <!-- Inline CSS for Additional Styling -->
+    <!-- Inline CSS for Additional Styling (Optional) -->
     <style>
         .collections-container {
             max-width: 1200px;
-            margin: 40px auto;
+            margin: 20px auto;
             padding: 20px;
-            background-color: #ffffff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .collections-container h1 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #333;
-        }
-
-        .filters {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
+        .toggle-container {
             margin-bottom: 20px;
-            justify-content: space-between;
-            align-items: center;
+            text-align: center;
         }
 
-        .filters .search-box {
-            flex: 1 1 300px;
+        .toggle-container form {
+            display: inline-block;
         }
 
-        .filters .toggle-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .toggle-container input[type="checkbox"] {
+            display: none;
+        }
+
+        .toggle-container label {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .toggle-container label:hover {
+            background-color: #0056b3;
+        }
+
+        .toggle-container input[type="checkbox"]:checked+label {
+            background-color: #28a745;
         }
 
         .collections-list {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
         }
 
@@ -63,15 +70,32 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        .collection-card h2 {
-            margin-top: 0;
-            color: #007BFF;
+        .collection-details {
+            margin-top: 10px;
         }
 
-        .collection-card p {
+        .collection-details p {
+            margin: 5px 0;
             color: #555;
         }
 
+        /* View Button Styling */
+        .view-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: #17a2b8;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .view-button:hover {
+            background-color: #138496;
+        }
+
+        /* Pagination Styles */
         .pagination {
             display: flex;
             justify-content: center;
@@ -107,116 +131,86 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .filters {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .filters .toggle-box {
-                width: 100%;
+            .collections-list {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             }
         }
     </style>
 </head>
 
 <body>
+
     <?php include '../components/header.php'; ?>
 
     <div class="collections-container">
-        <h1>Coin Collections</h1>
-
-        <div class="filters">
-            <!-- Search Filter -->
-            <div class="search-box">
-                <form action="collections.php" method="GET">
-                    <input type="text" name="search" placeholder="Search Collections..."
-                        value="<?= htmlspecialchars($search); ?>"
-                        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-                </form>
-            </div>
-
-            <!-- Toggle to Show Only My Collections -->
-            <div class="toggle-box">
-                <form action="collections.php" method="GET">
-                    <?php
-                    // Preserve existing GET parameters except 'show_my_collections' and 'page'
-                    $query_params = $_GET;
-                    unset($query_params['show_my_collections']);
-                    unset($query_params['page']);
-                    ?>
-                    <?php foreach ($query_params as $key => $value): ?>
-                        <input type="hidden" name="<?= htmlspecialchars($key); ?>" value="<?= htmlspecialchars($value); ?>">
-                    <?php endforeach; ?>
-
-                    <label for="show_my_collections">Show Only My Collections</label>
-                    <input type="checkbox" id="show_my_collections" name="show_my_collections" value="1"
-                        <?= $show_my_collections ? 'checked' : ''; ?> onchange="this.form.submit()">
-                </form>
-            </div>
+        <div class="toggle-container">
+            <form method="GET" action="collections.php">
+                <!-- Preserve search term in the form -->
+                <input type="hidden" name="search" value="<?= htmlspecialchars($search); ?>">
+                <input type="hidden" name="page" value="1"> <!-- Reset to first page on toggle -->
+                <input type="checkbox" id="show_my_collections" name="show_my_collections" value="1"
+                    <?= $show_my_collections ? 'checked' : ''; ?> onchange="this.form.submit()">
+                <label for="show_my_collections">Only my collections</label>
+            </form>
         </div>
 
-        <!-- Display Collections -->
+        <?php if (!empty($search)): ?>
+            <h2>Search Results for "<?= htmlspecialchars($search); ?>"</h2>
+        <?php else: ?>
+            <h2>Collections</h2>
+        <?php endif; ?>
+
+        <?php if ($show_my_collections): ?>
+            <h3>Your Collections</h3>
+        <?php endif; ?>
+
         <?php if (count($collections) > 0): ?>
             <div class="collections-list">
                 <?php foreach ($collections as $collection): ?>
                     <div class="collection-card">
-                        <h2><?= htmlspecialchars($collection['name']); ?></h2>
-                        <p><?= nl2br(htmlspecialchars($collection['access'])); ?></p>
+                        <h3><?= htmlspecialchars($collection['name']); ?></h3>
+                        <p><strong>Owner:</strong> <?= htmlspecialchars($collection['user_name']); ?></p>
+                        <p><strong>Access:</strong> <?= ucfirst(htmlspecialchars($collection['access'])); ?></p>
                         <p><strong>Created At:</strong> <?= htmlspecialchars($collection['created_at']); ?></p>
-                        <a href="collection_details.php?collection_id=<?= htmlspecialchars($collection['id']); ?>">View
-                            Collection</a>
+                        <a href="collection_details.php?collection_id=<?= urlencode($collection['id']); ?>"
+                            class="view-button">View Details</a>
                     </div>
                 <?php endforeach; ?>
             </div>
-
-            <!-- Pagination -->
-            <?php if ($total_pages > 1): ?>
-                <div class="pagination">
-                    <?php
-                    // Build query parameters excluding 'page'
-                    $query_params = $_GET;
-                    unset($query_params['page']);
-
-                    // Previous page link
-                    if ($page > 1) {
-                        $query_params['page'] = $page - 1;
-                        $prev_link = 'collections.php?' . http_build_query($query_params);
-                        echo '<a href="' . htmlspecialchars($prev_link) . '">&laquo; Previous</a>';
-                    } else {
-                        echo '<span class="disabled">&laquo; Previous</span>';
-                    }
-
-                    // Page number links
-                    for ($i = 1; $i <= $total_pages; $i++) {
-                        if ($i == $page) {
-                            echo '<span class="current">' . $i . '</span>';
-                        } else {
-                            $query_params['page'] = $i;
-                            $page_link = 'collections.php?' . http_build_query($query_params);
-                            echo '<a href="' . htmlspecialchars($page_link) . '">' . $i . '</a>';
-                        }
-                    }
-
-                    // Next page link
-                    if ($page < $total_pages) {
-                        $query_params['page'] = $page + 1;
-                        $next_link = 'collections.php?' . http_build_query($query_params);
-                        echo '<a href="' . htmlspecialchars($next_link) . '">Next &raquo;</a>';
-                    } else {
-                        echo '<span class="disabled">Next &raquo;</span>';
-                    }
-                    ?>
-                </div>
-            <?php endif; ?>
         <?php else: ?>
             <p>No collections found.</p>
         <?php endif; ?>
+
+        <!-- Pagination -->
+        <?php if ($total_pages > 1): ?>
+            <div class="pagination">
+                <?php
+                // Previous Page Link
+                if ($page > 1) {
+                    echo '<a href="?page=' . ($page - 1) . '&search=' . urlencode($search) . '&show_my_collections=' . ($show_my_collections ? '1' : '0') . '">Previous</a>';
+                } else {
+                    echo '<span class="disabled">Previous</span>';
+                }
+
+                // Page Number Links
+                for ($i = 1; $i <= $total_pages; $i++) {
+                    if ($i == $page) {
+                        echo '<span class="current">' . $i . '</span>';
+                    } else {
+                        echo '<a href="?page=' . $i . '&search=' . urlencode($search) . '&show_my_collections=' . ($show_my_collections ? '1' : '0') . '">' . $i . '</a>';
+                    }
+                }
+
+                // Next Page Link
+                if ($page < $total_pages) {
+                    echo '<a href="?page=' . ($page + 1) . '&search=' . urlencode($search) . '&show_my_collections=' . ($show_my_collections ? '1' : '0') . '">Next</a>';
+                } else {
+                    echo '<span class="disabled">Next</span>';
+                }
+                ?>
+            </div>
+        <?php endif; ?>
     </div>
-
-    <!-- Optional: Add Footer Component -->
-    <?php // include 'components/footer.php'; ?>
-
-    <!-- Optional: Add JavaScript for Enhanced Functionality -->
 </body>
 
 </html>

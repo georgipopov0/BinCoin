@@ -193,5 +193,5 @@ $conn->close();
 
 // Include the coins_page.php component to display the results
 // Pass variables to the included file
-include '../components/coins_page.php';
+include '../components/dashboard.php';
 ?>

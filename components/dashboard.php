@@ -288,7 +288,6 @@
             <table>
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Country</th>
                         <th>Year</th>
                         <th>Currency</th>
@@ -299,7 +298,6 @@
                 <tbody>
                     <?php foreach ($coins as $coin): ?>
                         <tr>
-                            <td><?= htmlspecialchars($coin['id']); ?></td>
                             <td><?= htmlspecialchars($coin['country']); ?></td>
                             <td><?= htmlspecialchars($coin['year']); ?></td>
                             <td><?= htmlspecialchars($coin['currency']); ?></td>

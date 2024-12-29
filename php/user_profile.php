@@ -1,5 +1,7 @@
 <?php
+
 require 'constants.php';
+include "./auth.php";
 
 $conn = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
 
