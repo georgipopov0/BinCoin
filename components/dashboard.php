@@ -1,14 +1,20 @@
+<?php
+// coins_page.php
+
+// Ensure this file is included after `coins.php` which sets up the $coins array
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Coins</title>
+    <!-- Link to external CSS files -->
     <link rel="stylesheet" href="../css/theme.css">
     <link rel="stylesheet" href="../css/dashboard.css">
     <link rel="stylesheet" href="../css/navbar.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <!-- Inline CSS for Additional Styling (Optional) -->
     <style>
         .container {
             max-width: 1200px;
@@ -136,6 +142,7 @@
             padding: 12px;
             border: 1px solid #ddd;
             text-align: left;
+            vertical-align: middle;
         }
 
         table th {
@@ -158,6 +165,11 @@
             table td {
                 padding: 8px;
             }
+
+            .collection-images img {
+                width: 100px;
+                height: auto;
+            }
         }
 
         /* Visually hidden label for accessibility */
@@ -170,6 +182,29 @@
             overflow: hidden;
             clip: rect(0, 0, 0, 0);
             border: 0;
+        }
+
+        /* Image Styling */
+        .coin-image {
+            width: 100px;
+            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        /* View Button Styling */
+        .view-button {
+            display: inline-block;
+            padding: 6px 12px;
+            background-color: #17a2b8;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .view-button:hover {
+            background-color: #138496;
         }
     </style>
     <!-- jQuery and jQuery UI -->
@@ -232,27 +267,27 @@
         <?php endif; ?>
 
         <!-- Search Form -->
-        <form class="search-form" method="GET" action="dashboard.php">
+        <form class="search-form" method="GET" action="coins.php">
             <div class="search-fields">
                 <label for="country" class="sr-only">Country</label>
-                <input type="text" name="country" id="country" placeholder="Country" value="<?= htmlspecialchars($country); ?>">
+                <input type="text" name="country" id="country" placeholder="Country" value="<?= htmlspecialchars($search); ?>">
 
                 <label for="year_from" class="sr-only">Year From</label>
-                <input type="number" name="year_from" id="year_from" placeholder="Year From" value="<?= htmlspecialchars($year_from); ?>">
+                <input type="number" name="year_from" id="year_from" placeholder="Year From" value="<?= isset($_GET['year_from']) ? htmlspecialchars($_GET['year_from']) : ''; ?>">
 
                 <label for="year_to" class="sr-only">Year To</label>
-                <input type="number" name="year_to" id="year_to" placeholder="Year To" value="<?= htmlspecialchars($year_to); ?>">
+                <input type="number" name="year_to" id="year_to" placeholder="Year To" value="<?= isset($_GET['year_to']) ? htmlspecialchars($_GET['year_to']) : ''; ?>">
 
                 <label for="currency" class="sr-only">Currency</label>
-                <input type="text" name="currency" id="currency" placeholder="Currency" value="<?= htmlspecialchars($currency); ?>">
+                <input type="text" name="currency" id="currency" placeholder="Currency" value="<?= isset($_GET['currency']) ? htmlspecialchars($_GET['currency']) : ''; ?>">
 
                 <label for="sort" class="sr-only">Sort By</label>
                 <select name="sort" id="sort">
                     <option value="">Sort By</option>
-                    <option value="year_asc" <?= ($sort == 'year_asc') ? 'selected' : ''; ?>>Year Ascending</option>
-                    <option value="year_desc" <?= ($sort == 'year_desc') ? 'selected' : ''; ?>>Year Descending</option>
-                    <option value="value_asc" <?= ($sort == 'value_asc') ? 'selected' : ''; ?>>Value Low to High</option>
-                    <option value="value_desc" <?= ($sort == 'value_desc') ? 'selected' : ''; ?>>Value High to Low</option>
+                    <option value="year_asc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'year_asc') ? 'selected' : ''; ?>>Year Ascending</option>
+                    <option value="year_desc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'year_desc') ? 'selected' : ''; ?>>Year Descending</option>
+                    <option value="value_asc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'value_asc') ? 'selected' : ''; ?>>Value Low to High</option>
+                    <option value="value_desc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'value_desc') ? 'selected' : ''; ?>>Value High to Low</option>
                 </select>
 
                 <input type="submit" value="Search">
@@ -260,25 +295,37 @@
         </form>
 
         <!-- Display Active Filters -->
-        <?php if ($country || $year_from || $year_to || $currency || $sort): ?>
+        <?php
+        $active_filters = [];
+        if (isset($_GET['country']) && $_GET['country'] !== '') {
+            $active_filters[] = 'Country: ' . htmlspecialchars($_GET['country']);
+        }
+        if (isset($_GET['year_from']) && $_GET['year_from'] !== '') {
+            $active_filters[] = 'Year From: ' . htmlspecialchars($_GET['year_from']);
+        }
+        if (isset($_GET['year_to']) && $_GET['year_to'] !== '') {
+            $active_filters[] = 'Year To: ' . htmlspecialchars($_GET['year_to']);
+        }
+        if (isset($_GET['currency']) && $_GET['currency'] !== '') {
+            $active_filters[] = 'Currency: ' . htmlspecialchars($_GET['currency']);
+        }
+        if (isset($_GET['sort']) && $_GET['sort'] !== '') {
+            $sort_options = [
+                'year_asc' => 'Year Ascending',
+                'year_desc' => 'Year Descending',
+                'value_asc' => 'Value Low to High',
+                'value_desc' => 'Value High to Low'
+            ];
+            $active_filters[] = 'Sort By: ' . htmlspecialchars($sort_options[$_GET['sort']] ?? $_GET['sort']);
+        }
+        ?>
+        <?php if (!empty($active_filters)): ?>
             <div class="active-filters">
                 <h3>Active Filters:</h3>
                 <ul>
-                    <?php if ($country): ?>
-                        <li>Country: <?= htmlspecialchars($country); ?></li>
-                    <?php endif; ?>
-                    <?php if ($year_from): ?>
-                        <li>Year From: <?= htmlspecialchars($year_from); ?></li>
-                    <?php endif; ?>
-                    <?php if ($year_to): ?>
-                        <li>Year To: <?= htmlspecialchars($year_to); ?></li>
-                    <?php endif; ?>
-                    <?php if ($currency): ?>
-                        <li>Currency: <?= htmlspecialchars($currency); ?></li>
-                    <?php endif; ?>
-                    <?php if ($sort): ?>
-                        <li>Sort By: <?= htmlspecialchars(str_replace(['_asc', '_desc'], [' Ascending', ' Descending'], $sort)); ?></li>
-                    <?php endif; ?>
+                    <?php foreach ($active_filters as $filter): ?>
+                        <li><?= $filter; ?></li>
+                    <?php endforeach; ?>
                 </ul>
                 <a href="coins.php">Clear Filters</a>
             </div>
@@ -292,6 +339,8 @@
                         <th>Year</th>
                         <th>Currency</th>
                         <th>Value</th>
+                        <th>Front Image</th>
+                        <th>Back Image</th>
                         <th>Details</th>
                     </tr>
                 </thead>
@@ -301,9 +350,21 @@
                             <td><?= htmlspecialchars($coin['country']); ?></td>
                             <td><?= htmlspecialchars($coin['year']); ?></td>
                             <td><?= htmlspecialchars($coin['currency']); ?></td>
-                            <td><?= htmlspecialchars($coin['value']); ?></td>
+                            <td><?= htmlspecialchars(number_format($coin['value'], 2)); ?></td>
                             <td>
-                                <a href="coin.php?coin_id=<?= htmlspecialchars($coin['id']); ?>">View</a>
+                                <?php
+                                $front_image = !empty($coin['front_image_path']) && file_exists($coin['front_image_path']) ? $coin['front_image_path'] : 'assets/images/placeholder.png';
+                                ?>
+                                <img src="<?= htmlspecialchars($front_image); ?>" alt="Front Image of <?= htmlspecialchars($coin['country']); ?> Coin" class="coin-image">
+                            </td>
+                            <td>
+                                <?php
+                                $back_image = !empty($coin['back_image_path']) && file_exists($coin['back_image_path']) ? $coin['back_image_path'] : 'assets/images/placeholder.png';
+                                ?>
+                                <img src="<?= htmlspecialchars($back_image); ?>" alt="Back Image of <?= htmlspecialchars($coin['country']); ?> Coin" class="coin-image">
+                            </td>
+                            <td>
+                                <a href="coin_details.php?coin_id=<?= urlencode($coin['id']); ?>" class="view-button">View</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
