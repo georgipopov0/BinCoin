@@ -53,6 +53,36 @@ if (!empty($filter_status)) {
 	$params[] = $filter_status;
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_trade'])) {
+    $trade_id = $_POST['trade_id'];
+    $collection_id = $_POST['collection_id'];
+    $current_user =  $_SESSION['username']; // Replace with your session user logic
+
+    // Fetch the coin_id associated with the trade
+    $stmt = $pdo->prepare("SELECT coin_id FROM trade WHERE id = ? AND status = 'pending'");
+    $stmt->execute([$trade_id]);
+    $trade = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($trade) {
+        $coin_id = $trade['coin_id'];
+
+        // Update the coin's collection
+        $stmt = $pdo->prepare("UPDATE coin SET collection_id = ?, owner = ? WHERE id = ?");
+        $stmt->execute([$collection_id, $current_user, $coin_id]);
+
+        // Mark the trade as completed
+        $stmt = $pdo->prepare("UPDATE trade SET status = 'completed' WHERE id = ?");
+        $stmt->execute([$trade_id]);
+
+        echo json_encode(['success' => true]);
+        exit;
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Invalid trade or already completed.']);
+        exit;
+    }
+}
+
+
 $stmt = $pdo->prepare($query);
 $stmt->execute($params);
 $trades = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -116,9 +146,24 @@ $trades = $stmt->fetchAll(PDO::FETCH_ASSOC);
 					<td><?= htmlspecialchars($trade['coin_id']) ?></td>
 					<?php if ($view_type === 'received'): ?>
 						<td class="action-buttons">
-							<a href="?action=confirm&id=<?= htmlspecialchars($trade['id']) ?>">
+							<a href="#" onclick="openCollectionPopup(<?= htmlspecialchars($trade['id']) ?>, <?= htmlspecialchars($trade['coin_id']) ?>)">
 								<button class="confirm">Confirm</button>
 							</a>
+							<div id="collectionPopup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); z-index: 1000;">
+								<h3>Select a Collection</h3>
+								<form id="collectionForm" method="POST" action="handle_collection.php">
+									<input type="hidden" name="trade_id" id="popupTradeId">
+									<input type="hidden" name="coin_id" id="popupCoinId">
+									<select name="collection_id" id="collectionSelect" required>
+										<!-- Collections will be loaded dynamically -->
+									</select>
+									<br><br>
+									<button type="submit">Confirm</button>
+									<button type="button" onclick="closeCollectionPopup()">Cancel</button>
+								</form>
+							</div>
+							<div id="popupBackdrop" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 999;" onclick="closeCollectionPopup()"></div>
+
 							<a href="?action=cancel&id=<?= htmlspecialchars($trade['id']) ?>">
 								<button class="cancel">Cancel</button>
 							</a>
@@ -129,5 +174,6 @@ $trades = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			</tbody>
 		</table>
 	</div>
+	<script src="../js/trade.js"></script>
 </body>
 </html>
