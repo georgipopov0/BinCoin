@@ -53,10 +53,39 @@ if (!empty($filter_status)) {
 	$params[] = $filter_status;
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_trade'])) {
+    $trade_id = $_POST['trade_id'];
+    $collection_id = $_POST['collection_id'];
+    $current_user =  $_SESSION['username']; // Replace with your session user logic
+
+    // Fetch the coin_id associated with the trade
+    $stmt = $pdo->prepare("SELECT coin_id FROM trade WHERE id = ? AND status = 'pending'");
+    $stmt->execute([$trade_id]);
+    $trade = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($trade) {
+        $coin_id = $trade['coin_id'];
+
+        // Update the coin's collection
+        $stmt = $pdo->prepare("UPDATE coin SET collection_id = ?, owner = ? WHERE id = ?");
+        $stmt->execute([$collection_id, $current_user, $coin_id]);
+
+        // Mark the trade as completed
+        $stmt = $pdo->prepare("UPDATE trade SET status = 'completed' WHERE id = ?");
+        $stmt->execute([$trade_id]);
+
+        echo json_encode(['success' => true]);
+        exit;
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Invalid trade or already completed.']);
+        exit;
+    }
+}
+
+
 $stmt = $pdo->prepare($query);
 $stmt->execute($params);
 $trades = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 include "../components/trade_page.php";
 ?>
-
