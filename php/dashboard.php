@@ -1,4 +1,7 @@
 <?php
+
+include("./auth.php");
+
 // coins.php
 
 // Start session if not already started (useful for CSRF tokens, user authentication, etc.)

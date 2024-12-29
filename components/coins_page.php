@@ -232,7 +232,7 @@
         <?php endif; ?>
 
         <!-- Search Form -->
-        <form class="search-form" method="GET" action="coins.php">
+        <form class="search-form" method="GET" action="dashboard.php">
             <div class="search-fields">
                 <label for="country" class="sr-only">Country</label>
                 <input type="text" name="country" id="country" placeholder="Country" value="<?= htmlspecialchars($country); ?>">

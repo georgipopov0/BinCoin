@@ -52,12 +52,38 @@ if ($result_collection->num_rows === 0) {
 $collection = $result_collection->fetch_assoc();
 $stmt_collection->close();
 
-// Access Control: Check if the collection is public or owned by the current user
+// Access Control: Check if the user has access based on collection's access level
 $has_access = false;
+
 if ($collection['access'] === 'public') {
+    // Public collections are accessible to all users
     $has_access = true;
 } elseif ($collection['access'] === 'private' && $collection['user_name'] === $_SESSION['username']) {
+    // Private collections are accessible only to the owner
     $has_access = true;
+} elseif ($collection['access'] === 'protected') {
+    if ($collection['user_name'] === $_SESSION['username']) {
+        // Owners always have access to their protected collections
+        $has_access = true;
+    } else {
+        // Check if the current user is in the allowed users list
+        $allowed_users_sql = "SELECT `user_name` FROM `access_control` WHERE `collection_id` = ?";
+        $stmt_allowed = $conn->prepare($allowed_users_sql);
+        if ($stmt_allowed) {
+            $stmt_allowed->bind_param("i", $collection_id);
+            $stmt_allowed->execute();
+            $result_allowed = $stmt_allowed->get_result();
+            $allowed_users = [];
+            while ($row = $result_allowed->fetch_assoc()) {
+                $allowed_users[] = $row['user_name'];
+            }
+            $stmt_allowed->close();
+
+            if (in_array($_SESSION['username'], $allowed_users)) {
+                $has_access = true;
+            }
+        }
+    }
 }
 
 if (!$has_access) {
@@ -108,255 +134,23 @@ if ($stmt_periods) {
     $periods = [];
 }
 
+// Optional: Fetch allowed users if the collection is protected
+$allowed_users = [];
+if ($collection['access'] === 'protected') {
+    $allowed_users_sql = "SELECT `user_name` FROM `access_control` WHERE `collection_id` = ?";
+    $stmt_allowed_users = $conn->prepare($allowed_users_sql);
+    if ($stmt_allowed_users) {
+        $stmt_allowed_users->bind_param("i", $collection_id);
+        $stmt_allowed_users->execute();
+        $result_allowed_users = $stmt_allowed_users->get_result();
+        while ($row = $result_allowed_users->fetch_assoc()) {
+            $allowed_users[] = $row['user_name'];
+        }
+        $stmt_allowed_users->close();
+    }
+}
+
 $conn->close();
+
+include "../components/collection_details_page.php";
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Collection Details - <?= htmlspecialchars($collection['name']); ?></title>
-    <!-- Link to external CSS files -->
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/collections.css">
-    <link rel="stylesheet" href="css/navbar.css">
-    <!-- Inline CSS for Additional Styling (Optional) -->
-    <style>
-        .collection-details-container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .collection-header {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #333;
-        }
-
-        .collection-header h1 {
-            margin-bottom: 10px;
-        }
-
-        .collection-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-            margin-bottom: 30px;
-        }
-
-        .collection-meta div {
-            flex: 1 1 200px;
-            background-color: #f9f9f9;
-            padding: 15px;
-            border-radius: 6px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .collection-meta div h3 {
-            margin-top: 0;
-            color: #555;
-        }
-
-        .collection-meta div p {
-            margin: 5px 0 0 0;
-            color: #777;
-        }
-
-        .collection-tags {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .collection-tags .tag {
-            display: inline-block;
-            background-color: #007BFF;
-            color: #fff;
-            padding: 5px 10px;
-            margin: 5px;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        .coins-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .coin-card {
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            padding: 15px;
-            background-color: #fafafa;
-            transition: box-shadow 0.3s;
-        }
-
-        .coin-card:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .coin-card img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 4px;
-        }
-
-        .coin-details {
-            margin-top: 10px;
-        }
-
-        .coin-details p {
-            margin: 5px 0;
-            color: #555;
-        }
-
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 30px;
-            gap: 5px;
-        }
-
-        .pagination a,
-        .pagination span {
-            padding: 8px 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            text-decoration: none;
-            color: #333;
-            transition: background-color 0.3s;
-        }
-
-        .pagination a:hover {
-            background-color: #f0f0f0;
-        }
-
-        .pagination .current {
-            background-color: #007BFF;
-            color: #fff;
-            border-color: #007BFF;
-        }
-
-        .pagination .disabled {
-            color: #999;
-            border-color: #ccc;
-            cursor: not-allowed;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .collection-meta {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .collection-meta div {
-                flex: 1 1 100%;
-                max-width: 400px;
-            }
-        }
-
-        /* Edit Button Styling */
-        .edit-button {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 10px 20px;
-            background-color: #ffc107;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-
-        .edit-button:hover {
-            background-color: #e0a800;
-        }
-    </style>
-</head>
-
-<body>
-    <?php include 'components/header.php'; ?>
-
-    <div class="collection-details-container">
-        <div class="collection-header">
-            <h1><?= htmlspecialchars($collection['name']); ?></h1>
-            <p>Owned by: <?= htmlspecialchars($collection['user_name']); ?></p>
-            <p>Access Level: <?= ucfirst(htmlspecialchars($collection['access'])); ?></p>
-            <p>Created At: <?= htmlspecialchars($collection['created_at']); ?></p>
-
-            <?php
-            // Check if the current user is the owner of the collection
-            if ($collection['user_name'] === $_SESSION['username']) {
-                // Display the "Edit Collection" button
-                echo '<a href="edit_collection.php?collection_id=' . urlencode($collection['id']) . '" class="edit-button">Edit Collection</a>';
-            }
-            ?>
-        </div>
-
-        <!-- Display Tags -->
-        <?php if (!empty($tags)): ?>
-            <div class="collection-tags">
-                <?php foreach ($tags as $tag): ?>
-                    <span class="tag"><?= htmlspecialchars($tag['name']); ?></span>
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
-
-        <!-- Display Associated Periods -->
-        <?php if (!empty($periods)): ?>
-            <div class="collection-meta">
-                <div>
-                    <h3>Associated Periods</h3>
-                    <?php foreach ($periods as $period): ?>
-                        <p><?= htmlspecialchars($period['name']) . " (" . htmlspecialchars($period['country']) . ", " . htmlspecialchars($period['from']) . " - " . htmlspecialchars($period['to']) . ")"; ?></p>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-        <?php endif; ?>
-
-        <!-- Display Coins -->
-        <?php if (count($coins) > 0): ?>
-            <h2>Coins in this Collection</h2>
-            <div class="coins-list">
-                <?php foreach ($coins as $coin): ?>
-                    <div class="coin-card">
-                        <!-- Display Front Image -->
-                        <?php
-                        $front_image = !empty($coin['front_path']) && file_exists($coin['front_path']) ? $coin['front_path'] : 'assets/images/placeholder.png';
-                        ?>
-                        <img src="<?= htmlspecialchars($front_image); ?>" alt="Front Image of <?= htmlspecialchars($coin['country']); ?> Coin">
-
-                        <!-- Display Back Image (Optional) -->
-                        <?php
-                        $back_image = !empty($coin['back_path']) && file_exists($coin['back_path']) ? $coin['back_path'] : 'assets/images/placeholder.png';
-                        ?>
-                        <img src="<?= htmlspecialchars($back_image); ?>" alt="Back Image of <?= htmlspecialchars($coin['country']); ?> Coin">
-
-                        <div class="coin-details">
-                            <p><strong>Country:</strong> <?= htmlspecialchars($coin['country']); ?></p>
-                            <p><strong>Year:</strong> <?= htmlspecialchars($coin['year']); ?></p>
-                            <p><strong>Cost:</strong> <?= htmlspecialchars($coin['currency']) . " " . htmlspecialchars(number_format($coin['cost'], 2)); ?></p>
-                            <p><strong>Value:</strong> <?= htmlspecialchars($coin['currency']) . " " . htmlspecialchars(number_format($coin['value'], 2)); ?></p>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        <?php else: ?>
-            <p>No coins found in this collection.</p>
-        <?php endif; ?>
-    </div>
-
-    <!-- Optional: Add Footer Component -->
-    <?php // include 'components/footer.php'; ?>
-
-    <!-- Optional: Add JavaScript for Enhanced Functionality -->
-</body>
-
-</html>
