@@ -6,7 +6,7 @@
 	<title>Trade Entries</title>
 	<link rel="stylesheet" href="../css/trade.css">
 	<link rel="stylesheet" href="../css/theme.css">
-	<link rel="stylesheet" href="../css/navbar.css">
+	<!-- <link rel="stylesheet" href="../css/navbar.css"> -->
 </head>
 <body>
 	<?php include '../components/header.php'; ?>

@@ -7,7 +7,7 @@
     <title>Add New Coin</title>
     <!-- Link to external CSS files -->
     <link rel="stylesheet" href="../css/theme.css">
-    <link rel="stylesheet" href="../css/navbar.css">
+    <!-- <link rel="stylesheet" href="../css/navbar.css"> -->
     <!-- Inline CSS for Autocomplete and Additional Styling -->
     <style>
         .container {

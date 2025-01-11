@@ -7,7 +7,7 @@
     <title>User Profile</title>
     <link rel="stylesheet" href="../css/theme.css">
     <link rel="stylesheet" href="../css/user_profile.css">
-    <link rel="stylesheet" href="../css/navbar.css">
+    <!-- <link rel="stylesheet" href="../css/navbar.css"> -->
 </head>
 
 <body>
@@ -64,7 +64,6 @@
                 </div>
             </div>
         </div>
-        <a href="logout.php">Logout</a>
     </div>
 </body>
 

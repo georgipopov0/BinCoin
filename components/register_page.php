@@ -1,46 +1,62 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Register</title>
+    <title>User Registration</title>
     <link rel="stylesheet" href="../css/theme.css">
-    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/register.css">
 </head>
+
 <body>
-    <?php include '../components/header.php'; ?>
+    <div class="registration-container">
+        <h2>Register</h2>
+        <?php
+        // Display error messages if any
+        if (!empty($errors)) {
+            echo '<div class="error-messages">';
+            foreach ($errors as $error) {
+                echo '<p>' . htmlspecialchars($error) . '</p>';
+            }
+            echo '</div>';
+        }
 
-    <div class="container">
-        <h1>Register</h1>
-
-        <!-- Display Success Message -->
-        <?php if ($success): ?>
-            <div class="success-message">
-                <?= $success; ?>
-            </div>
-        <?php endif; ?>
-
-        <!-- Display Error Messages -->
-        <?php if (!empty($errors)): ?>
-            <div class="error-messages">
-                <ul>
-                    <?php foreach ($errors as $error): ?>
-                        <li><?= htmlspecialchars($error); ?></li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-        <?php endif; ?>
-
+        // Display success message
+        if (isset($_SESSION['success_message'])) {
+            echo '<div class="success-message">' . htmlspecialchars($_SESSION['success_message']) . '</div>';
+            unset($_SESSION['success_message']); // Remove the message after displaying
+        }
+        ?>
         <form action="register.php" method="POST">
             <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" value="<?= isset($name) ? htmlspecialchars($name) : ''; ?>" required>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required minlength="3" maxlength="50">
             </div>
-
-            <!-- Additional fields like password can be added here -->
-
-            <input type="submit" value="Register">
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required minlength="6">
+            </div>
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password:</label>
+                <input type="password" id="confirm_password" name="confirm_password" required minlength="6">
+            </div>
+            <button type="submit">Register</button>
         </form>
+
+        <!-- Login Link -->
+        <p>Already have an account? <a href="login.php">Log in here</a>.</p>
     </div>
+    <script>
+        document.querySelector('form').addEventListener('submit', function (e) {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm_password').value;
+            if (password !== confirmPassword) {
+                e.preventDefault();
+                alert('Passwords do not match.');
+            }
+        });
+    </script>
+
 </body>
+
 </html>

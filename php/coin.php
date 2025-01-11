@@ -1,6 +1,7 @@
 <?php
 // coin_details.php
 
+include "./auth.php";
 require 'constants.php';
 
 // Sanitize and validate the 'coin_id' parameter

@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <title>Collection Details - <?= htmlspecialchars($collection['name']); ?></title>
     <!-- Link to external CSS files -->
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/collections.css">
-    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/theme.css">
+    <link rel="stylesheet" href="../css/collections.css">
+    <!-- <link rel="stylesheet" href="../css/navbar.css"> -->
     <!-- Inline CSS for Additional Styling (Optional) -->
     <style>
         .collection-details-container {
@@ -206,7 +206,6 @@
             <h1><?= htmlspecialchars($collection['name']); ?></h1>
             <p>Owned by: <?= htmlspecialchars($collection['user_name']); ?></p>
             <p>Access Level: <?= ucfirst(htmlspecialchars($collection['access'])); ?></p>
-            <p>Created At: <?= htmlspecialchars($collection['created_at']); ?></p>
 
             <?php
             // Check if the current user is the owner of the collection

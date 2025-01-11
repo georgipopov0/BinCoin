@@ -1,74 +1,64 @@
-/* navbar.css */
-
-/* Ensure the header stays at the top */
+/* -------------------------------------
+   NAVBAR STYLES
+-------------------------------------- */
 header {
-    background-color: #333; /* Dark background color */
-    color: #fff; /* White text color */
-    padding: 10px 20px; /* Add padding for spacing */
-    position: sticky; /* Makes the header stick to the top */
-    top: 0; /* Aligns the header to the top of the viewport */
-    z-index: 1000; /* Ensures it stays above other content */
-    width: 100%; /* Makes the header span the entire width */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
-    box-sizing: border-box; /* Ensures padding is included in the width */
+    background-color: #007bff; /* Adjust this to match your brand's color */
 }
 
-/* Navbar styling */
 .navbar {
-    display: flex; /* Makes items align horizontally */
-    justify-content: space-between; /* Spaces out title and nav buttons */
-    align-items: center; /* Vertically centers content */
-    max-width: 1200px; /* Optional: Limits the width of the navbar */
-    margin: 0 auto; /* Centers the navbar */
-    width: 100%; /* Ensures the navbar takes full width */
-    box-sizing: border-box; /* Ensures padding is included in the width */
-}
-
-/* Title styling */
-.navbar .title {
-    font-size: 1.5em; /* Larger font size for the title */
-    font-weight: bold; /* Bold text */
-    color: gold; /* Gold color for the title */
-}
-
-/* Navigation buttons styling */
-.navbar .nav-buttons {
-    display: flex; /* Aligns nav buttons horizontally */
-}
-
-.navbar .nav-buttons a {
-    color: #fff; /* White text color */
-    text-decoration: none; /* Removes underline */
-    margin: 0 15px; /* Adds space between links */
-    font-size: 1.1em; /* Slightly larger font size */
-    transition: color 0.3s ease, text-decoration 0.3s ease; /* Smooth hover effect */
-}
-
-.navbar .nav-buttons a:hover {
-    text-decoration: underline; /* Adds underline on hover */
-    color: #ddd; /* Changes color on hover */
-}
-
-/* coin.css */
-/* Add any necessary styles for the coin-container and other elements here */
-.coin-container {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 20px;
-}
-
-.coin-details {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
 }
 
-.image-section img {
-    max-width: 100%;
-    height: auto;
-    display: block;
+/* Site Title */
+.navbar .title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
 }
 
-.info-section {
-    flex: 1;
+/* Navigation Buttons Container */
+.navbar .nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Navigation Links */
+.nav-buttons a {
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-buttons a:hover {
+    background-color: #0056b3;
+}
+
+/* Username Display */
+.nav-buttons .username {
+    font-weight: bold;
+    color: #fff;
+    margin-right: 0.5rem;
+}
+
+/* Logout Button */
+.logout-button {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: #c82333;
 }

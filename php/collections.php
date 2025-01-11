@@ -84,10 +84,10 @@ if ($stmt_count) {
 $total_pages = ceil($total_collections / $results_per_page);
 
 // Fetch collections based on filters and pagination
-$sql = "SELECT `id`, `name`, `access`, `user_name`, `created_at` 
+$sql = "SELECT `id`, `name`, `access`, `user_name` 
         FROM `coin_collection` 
         $where_sql 
-        ORDER BY `created_at` DESC 
+        ORDER BY `name` DESC 
         LIMIT ? OFFSET ?";
 
 $stmt = $conn->prepare($sql);

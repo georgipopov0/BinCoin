@@ -5,9 +5,11 @@
     <meta charset="UTF-8">
     <title>Edit Collection - <?= htmlspecialchars($collection['name']); ?></title>
     <!-- Link to external CSS files -->
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/collections.css">
-    <link rel="stylesheet" href="../css/navbar.css">
+    <!-- <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/collections.css"> -->
+    <link rel="stylesheet" href="../css/theme.css">
+
+    <!-- <link rel="stylesheet" href="../css/navbar.css"> -->
     <!-- Inline CSS for Additional Styling (Optional) -->
     <style>
         .edit-collection-container {

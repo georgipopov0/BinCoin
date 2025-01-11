@@ -1,6 +1,6 @@
 <?php
 
-include("./auth.php");
+// include("./auth.php");
 
 // coins.php
 

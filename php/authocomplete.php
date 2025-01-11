@@ -1,6 +1,7 @@
 <?php
 // autocomplete.php
 
+include "./auth.php";
 require 'constants.php';
 
 // Set the response content type to JSON

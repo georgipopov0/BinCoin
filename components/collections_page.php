@@ -10,132 +10,11 @@
     <meta charset="UTF-8">
     <title>Collections</title>
     <!-- Link to external CSS files -->
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/collections.css">
-    <link rel="stylesheet" href="../css/navbar.css">
-    <!-- Inline CSS for Additional Styling (Optional) -->
-    <style>
-        .collections-container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-        }
+    <link rel="stylesheet" href="../css/theme.css">
+    <link rel="stylesheet" href="../css/collections.css">
 
-        .toggle-container {
-            margin-bottom: 20px;
-            text-align: center;
-        }
+    <!-- <link rel="stylesheet" href="../css/navbar.css"> -->
 
-        .toggle-container form {
-            display: inline-block;
-        }
-
-        .toggle-container input[type="checkbox"] {
-            display: none;
-        }
-
-        .toggle-container label {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: #fff;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .toggle-container label:hover {
-            background-color: #0056b3;
-        }
-
-        .toggle-container input[type="checkbox"]:checked+label {
-            background-color: #28a745;
-        }
-
-        .collections-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .collection-card {
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            padding: 15px;
-            background-color: #fafafa;
-            transition: box-shadow 0.3s;
-        }
-
-        .collection-card:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .collection-details {
-            margin-top: 10px;
-        }
-
-        .collection-details p {
-            margin: 5px 0;
-            color: #555;
-        }
-
-        /* View Button Styling */
-        .view-button {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 8px 16px;
-            background-color: #17a2b8;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-
-        .view-button:hover {
-            background-color: #138496;
-        }
-
-        /* Pagination Styles */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 30px;
-            gap: 5px;
-        }
-
-        .pagination a,
-        .pagination span {
-            padding: 8px 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            text-decoration: none;
-            color: #333;
-            transition: background-color 0.3s;
-        }
-
-        .pagination a:hover {
-            background-color: #f0f0f0;
-        }
-
-        .pagination .current {
-            background-color: #007BFF;
-            color: #fff;
-            border-color: #007BFF;
-        }
-
-        .pagination .disabled {
-            color: #999;
-            border-color: #ccc;
-            cursor: not-allowed;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .collections-list {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -171,7 +50,6 @@
                         <h3><?= htmlspecialchars($collection['name']); ?></h3>
                         <p><strong>Owner:</strong> <?= htmlspecialchars($collection['user_name']); ?></p>
                         <p><strong>Access:</strong> <?= ucfirst(htmlspecialchars($collection['access'])); ?></p>
-                        <p><strong>Created At:</strong> <?= htmlspecialchars($collection['created_at']); ?></p>
                         <a href="collection_details.php?collection_id=<?= urlencode($collection['id']); ?>"
                             class="view-button">View Details</a>
                     </div>

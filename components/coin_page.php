@@ -8,7 +8,7 @@
     <!-- Link to external CSS files -->
     <link rel="stylesheet" href="../css/theme.css">
     <link rel="stylesheet" href="../css/coin.css">
-    <link rel="stylesheet" href="../css/navbar.css">
+    <!-- <link rel="stylesheet" href="../css/navbar.css"> -->
     <!-- Inline CSS for Additional Styling -->
     <style>
         .coin-container {
