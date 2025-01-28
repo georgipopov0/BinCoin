@@ -211,7 +211,7 @@ $errors = $errors ?? [];
                     <?php foreach ($coins as $coin): ?>
                         <div class="coin-card">
                             <div class="coin-card-image-container">
-                                <img src="/<?= 
+                                <img src="<?= 
                                          $coin['front_path'] 
                                  ?>" 
                                 alt="Coin Image" class="coin-card-image" loading="lazy">

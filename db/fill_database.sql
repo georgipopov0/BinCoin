@@ -37,12 +37,12 @@ INSERT INTO `period` (`id`, `country`, `from`, `to`, `name`) VALUES
 
 -- Insert Coins
 INSERT INTO `coin` (`id`, `cost`, `value`, `currency`, `front_path`, `back_path`, `country`, `year`, `coin_collection_id`) VALUES
-(1, 100.00, 150.00, 'USD', 'assets/images/initial_data/1f.jpg', 'assets/images/initial_data/1b.jpg', 'Italy', 1500, 1),
-(2, 200.00, 300.00, 'USD', 'assets/images/initial_data/2f.jpg', 'assets/images/initial_data/2b.jpg', 'USA', 1800, 1),
-(3, 50.00, 75.00, 'USD', 'assets/images/initial_data/3f.jpg', 'assets/images/initial_data/3b.jpg', 'Canada', 2000, 2),
-(4, 80.00, 120.00, 'USD', 'assets/images/initial_data/4f.jpg', 'assets/images/initial_data/4b.jpg', 'UK', 1900, 3),
-(5, 60.00, 90.00, 'EUR', 'assets/images/initial_data/5f.jpg', 'assets/images/initial_data/5b.jpg', 'Germany', 1950, 4),
-(6, 70.00, 110.00, 'EUR', 'assets/images/initial_data/6f.jpg', 'assets/images/initial_data/6b.jpg', 'France', 1960, 4);
+(1, 100.00, 150.00, 'USD', '/assets/images/initial_data/1f.jpg', '/assets/images/initial_data/1b.jpg', 'Italy', 1500, 1),
+(2, 200.00, 300.00, 'USD', '/assets/images/initial_data/2f.jpg', '/assets/images/initial_data/2b.jpg', 'USA', 1800, 1),
+(3, 50.00, 75.00, 'USD', '/assets/images/initial_data/3f.jpg', '/assets/images/initial_data/3b.jpg', 'Canada', 2000, 2),
+(4, 80.00, 120.00, 'USD', '/assets/images/initial_data/4f.jpg', '/assets/images/initial_data/4b.jpg', 'UK', 1900, 3),
+(5, 60.00, 90.00, 'EUR', '/assets/images/initial_data/5f.jpg', '/assets/images/initial_data/5b.jpg', 'Germany', 1950, 4),
+(6, 70.00, 110.00, 'EUR', '/assets/images/initial_data/6f.jpg', '/assets/images/initial_data/6b.jpg', 'France', 1960, 4);
 
 -- Insert Coin-Period Relationships
 INSERT INTO `coin_period` (`id`, `coin_id`, `period_id`) VALUES
@@ -104,12 +104,12 @@ INSERT INTO `period` (`id`, `country`, `from`, `to`, `name`) VALUES
 
 -- Insert More Coins
 INSERT INTO `coin` (`id`, `cost`, `value`, `currency`, `front_path`, `back_path`, `country`, `year`, `coin_collection_id`) VALUES
-(7, 150.00, 225.00, 'USD', 'assets/images/coin7_front.jpg', 'assets/images/coin7_back.jpg', 'Egypt', 320, 5),
-(8, 120.00, 180.00, 'USD', 'assets/images/coin8_front.jpg', 'assets/images/coin8_back.jpg', 'China', 700, 5),
-(9, 90.00, 135.00, 'EUR', 'assets/images/coin9_front.jpg', 'assets/images/coin9_back.jpg', 'France', 1795, 5),
-(10, 200.00, 250.00, 'USD', 'assets/images/coin10_front.jpg', 'assets/images/coin10_back.jpg', 'USA', 1990, 6),
-(11, 300.00, 450.00, 'EUR', 'assets/images/coin11_front.jpg', 'assets/images/coin11_back.jpg', 'Germany', 2005, 7),
-(12, 500.00, 750.00, 'GBP', 'assets/images/coin12_front.jpg', 'assets/images/coin12_back.jpg', 'UK', 2020, 8);
+(7, 150.00, 225.00, 'USD', '/assets/images/initial_data/7f.jpg', '/assets/images/initial_data/7f.jpg', 'Egypt', 320, 5),
+(8, 120.00, 180.00, 'USD', '/assets/images/initial_data/8f.jpg', '/assets/images/initial_data/8f.jpg', 'China', 700, 5),
+(9, 90.00, 135.00, 'EUR', '/assets/images/initial_data/9f.jpg', '/assets/images/initial_data/9f.jpg', 'France', 1795, 5),
+(10, 200.00, 250.00, 'USD', '/assets/images/initial_data/10f.jpg', '/assets/images/initial_data/10f.jpg', 'USA', 1990, 6),
+(11, 300.00, 450.00, 'EUR', '/assets/images/initial_data/11f.jpg', '/assets/images/initial_data/11f.jpg', 'Germany', 2005, 7),
+(12, 500.00, 750.00, 'GBP', '/assets/images/initial_data/12f.jpg', '/assets/images/initial_data/12f.jpg', 'UK', 2020, 8);
 
 -- Insert More Coin-Period Relationships
 INSERT INTO `coin_period` (`id`, `coin_id`, `period_id`) VALUES
