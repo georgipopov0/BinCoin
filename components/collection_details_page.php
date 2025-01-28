@@ -4,11 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Collection Details - <?= htmlspecialchars($collection['name']); ?></title>
-    <!-- Link to external CSS files -->
     <link rel="stylesheet" href="../css/theme.css">
     <link rel="stylesheet" href="../css/collections.css">
-    <!-- <link rel="stylesheet" href="../css/navbar.css"> -->
-    <!-- Inline CSS for Additional Styling (Optional) -->
     <style>
         .collection-details-container {
             max-width: 1200px;
@@ -163,7 +160,6 @@
             cursor: not-allowed;
         }
 
-        /* Responsive Design */
         @media (max-width: 768px) {
             .collection-meta {
                 flex-direction: column;
@@ -180,7 +176,6 @@
             }
         }
 
-        /* Edit Button Styling */
         .edit-button {
             display: inline-block;
             margin-top: 15px;
@@ -208,15 +203,12 @@
             <p>Access Level: <?= ucfirst(htmlspecialchars($collection['access'])); ?></p>
 
             <?php
-            // Check if the current user is the owner of the collection
             if ($collection['user_name'] === $_SESSION['username']) {
-                // Display the "Edit Collection" button
                 echo '<a href="edit_collection.php?collection_id=' . urlencode($collection['id']) . '" class="edit-button">Edit Collection</a>';
             }
             ?>
         </div>
 
-        <!-- Display Tags -->
         <?php if (!empty($tags)): ?>
             <div class="collection-tags">
                 <?php foreach ($tags as $tag): ?>
@@ -225,7 +217,6 @@
             </div>
         <?php endif; ?>
 
-        <!-- Display Allowed Users for Protected Collections -->
         <?php if ($collection['access'] === 'protected' && !empty($allowed_users)): ?>
             <div class="allowed-users">
                 <h3>Allowed Users</h3>
@@ -242,7 +233,6 @@
             </div>
         <?php endif; ?>
 
-        <!-- Display Associated Periods -->
         <?php if (!empty($periods)): ?>
             <div class="collection-meta">
                 <div>
@@ -254,21 +244,18 @@
             </div>
         <?php endif; ?>
 
-        <!-- Display Coins -->
         <?php if (count($coins) > 0): ?>
             <h2>Coins in this Collection</h2>
             <div class="coins-list">
                 <?php foreach ($coins as $coin): ?>
                     <div class="coin-card">
-                        <!-- Display Front Image -->
                         <?php
-                        $front_image = !empty($coin['front_path']) && file_exists($coin['front_path']) ? $coin['front_path'] : 'assets/images/placeholder.png';
+                        $front_image = $coin['front_path'];
                         ?>
                         <img src="<?= htmlspecialchars($front_image); ?>" alt="Front Image of <?= htmlspecialchars($coin['country']); ?> Coin">
 
-                        <!-- Display Back Image (Optional) -->
                         <?php
-                        $back_image = !empty($coin['back_path']) && file_exists($coin['back_path']) ? $coin['back_path'] : 'assets/images/placeholder.png';
+                        $back_image =$coin['back_path'];
                         ?>
                         <img src="<?= htmlspecialchars($back_image); ?>" alt="Back Image of <?= htmlspecialchars($coin['country']); ?> Coin">
 
@@ -286,10 +273,8 @@
         <?php endif; ?>
     </div>
 
-    <!-- Optional: Add Footer Component -->
     <?php // include 'components/footer.php'; ?>
 
-    <!-- Optional: Add JavaScript for Enhanced Functionality -->
 </body>
 
 </html>

@@ -5,10 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add New Coin</title>
-    <!-- Link to external CSS files -->
     <link rel="stylesheet" href="../css/theme.css">
-    <!-- <link rel="stylesheet" href="../css/navbar.css"> -->
-    <!-- Inline CSS for Autocomplete and Additional Styling -->
     <style>
         .container {
             max-width: 600px;
@@ -101,7 +98,6 @@
             margin-bottom: 20px;
         }
 
-        /* Autocomplete Suggestions Styles */
         .suggestions {
             position: absolute;
             top: 100%;
@@ -114,7 +110,6 @@
             max-height: 200px;
             overflow-y: auto;
             display: none;
-            /* Hidden by default */
         }
 
         .suggestions div {
@@ -128,7 +123,6 @@
             background-color: #f0f0f0;
         }
 
-        /* Responsive Adjustments */
         @media (max-width: 600px) {
             .container {
                 padding: 15px;
@@ -153,14 +147,12 @@
     <div class="container">
         <h1>Add New Coin</h1>
 
-        <!-- Display Success Message -->
         <?php if ($success): ?>
             <div class="success-message">
                 <?= htmlspecialchars($success); ?>
             </div>
         <?php endif; ?>
 
-        <!-- Display Error Messages -->
         <?php if (!empty($errors)): ?>
             <div class="error-messages">
                 <ul>
@@ -172,47 +164,39 @@
         <?php endif; ?>
 
         <form action="add_coin.php" method="POST" enctype="multipart/form-data">
-            <!-- Cost -->
             <div class="form-group">
                 <label for="cost">Cost (e.g., 10.50)</label>
                 <input type="text" id="cost" name="cost" value="<?= htmlspecialchars($cost); ?>" required>
             </div>
 
-            <!-- Value -->
             <div class="form-group">
                 <label for="value">Value (e.g., 15.75)</label>
                 <input type="text" id="value" name="value" value="<?= htmlspecialchars($value); ?>" required>
             </div>
 
-            <!-- Currency with Autocomplete -->
             <div class="form-group autocomplete">
                 <label for="currency">Currency</label>
                 <input type="text" id="currency" name="currency" placeholder="Currency"
                     value="<?= htmlspecialchars($currency); ?>" autocomplete="off" required aria-autocomplete="list"
                     aria-controls="currency-suggestions" aria-expanded="false">
                 <div id="currency-suggestions" class="suggestions" role="listbox">
-                    <!-- Suggestions will be populated dynamically via JavaScript -->
                 </div>
             </div>
 
-            <!-- Country with Autocomplete -->
             <div class="form-group autocomplete">
                 <label for="country">Country</label>
                 <input type="text" id="country" name="country" placeholder="Country"
                     value="<?= htmlspecialchars($country); ?>" autocomplete="off" required aria-autocomplete="list"
                     aria-controls="country-suggestions" aria-expanded="false">
                 <div id="country-suggestions" class="suggestions" role="listbox">
-                    <!-- Suggestions will be populated dynamically via JavaScript -->
                 </div>
             </div>
 
-            <!-- Year -->
             <div class="form-group">
                 <label for="year">Year</label>
                 <input type="number" id="year" name="year" value="<?= htmlspecialchars($year); ?>" required>
             </div>
 
-            <!-- Coin Collection -->
             <div class="form-group">
                 <label for="coin_collection_id">Coin Collection</label>
                 <select id="coin_collection_id" name="coin_collection_id" required>
@@ -226,25 +210,21 @@
                 </select>
             </div>
 
-            <!-- Front Image -->
             <div class="form-group">
                 <label for="front_image">Front Image (JPEG, PNG, GIF | Max: 2MB)</label>
                 <input type="file" id="front_image" name="front_image" accept="image/jpeg, image/png, image/gif"
                     required>
             </div>
 
-            <!-- Back Image -->
             <div class="form-group">
                 <label for="back_image">Back Image (JPEG, PNG, GIF | Max: 2MB)</label>
                 <input type="file" id="back_image" name="back_image" accept="image/jpeg, image/png, image/gif" required>
             </div>
 
-            <!-- Submit Button -->
             <input type="submit" value="Add Coin">
         </form>
     </div>
 
-    <!-- Vanilla JavaScript for Autocomplete -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             /**
@@ -259,7 +239,6 @@
                 let currentFocus = -1;
                 let debounceTimer;
 
-                // Event listener for user input
                 input.addEventListener('input', function () {
                     const value = this.value.trim();
                     if (!value) {
@@ -269,7 +248,6 @@
                         return false;
                     }
 
-                    // Debounce the API call by 300ms
                     clearTimeout(debounceTimer);
                     debounceTimer = setTimeout(() => {
                         fetch(`autocomplete.php?field=${encodeURIComponent(inputId)}&term=${encodeURIComponent(value)}`)
@@ -277,7 +255,6 @@
                             .then(data => {
                                 suggestionsContainer.innerHTML = '';
                                 if (data.length === 0) {
-                                    // Optionally display "No results found"
                                     const noResult = document.createElement('div');
                                     noResult.textContent = 'No results found';
                                     noResult.style.color = '#999';
@@ -289,7 +266,6 @@
 
                                 data.forEach(item => {
                                     const suggestionItem = document.createElement('div');
-                                    // Highlight the matching part
                                     const regex = new RegExp(`(${value})`, 'gi');
                                     const highlighted = item.replace(regex, '<strong>$1</strong>');
                                     suggestionItem.innerHTML = highlighted;
@@ -314,7 +290,6 @@
                     }, 300); // 300ms debounce delay
                 });
 
-                // Event listener for keyboard navigation
                 input.addEventListener('keydown', function (e) {
                     const items = suggestionsContainer.getElementsByTagName('div');
                     if (e.key === 'ArrowDown') { // Down key
@@ -343,7 +318,6 @@
                     if (currentFocus >= items.length) currentFocus = 0;
                     if (currentFocus < 0) currentFocus = items.length - 1;
                     items[currentFocus].classList.add('suggestion-active');
-                    // Scroll into view if necessary
                     items[currentFocus].scrollIntoView({ block: 'nearest' });
                 }
 
@@ -357,7 +331,6 @@
                     }
                 }
 
-                // Close suggestions when clicking outside
                 document.addEventListener('click', function (e) {
                     if (e.target !== input) {
                         suggestionsContainer.innerHTML = '';
@@ -367,7 +340,6 @@
                 });
             }
 
-            // Initialize autocomplete for 'country' and 'currency'
             initAutocomplete('country', 'country-suggestions');
             initAutocomplete('currency', 'currency-suggestions');
         });

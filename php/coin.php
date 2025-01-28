@@ -1,24 +1,20 @@
 <?php
-// coin_details.php
 
 include "./auth.php";
 require 'constants.php';
 
-// Sanitize and validate the 'coin_id' parameter
 $coin_id = isset($_GET['coin_id']) ? intval($_GET['coin_id']) : 0;
 
 if ($coin_id <= 0) {
     die("Invalid coin ID.");
 }
 
-// Establish database connection
 $conn = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
 
 if ($conn->connect_error) {
     die("Connection failed: " . htmlspecialchars($conn->connect_error));
 }
 
-// Prepare the SQL statement to prevent SQL injection
 $sql = "SELECT 
             cost, 
             value, 
@@ -34,7 +30,6 @@ $stmt->bind_param("i", $coin_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Check if the coin exists
 if ($result->num_rows > 0) {
     $coin = $result->fetch_assoc();
 } else {
@@ -44,11 +39,8 @@ if ($result->num_rows > 0) {
 $stmt->close();
 $conn->close();
 
-// Function to verify if the image exists
 function verify_image($path)
 {
-    // Assuming 'assets' is in the same directory as 'coin_details.php'
-    // Adjust the path if your structure is different
     return $path;
 }
 

@@ -12,7 +12,6 @@
     <div class="registration-container">
         <h2>Register</h2>
         <?php
-        // Display error messages if any
         if (!empty($errors)) {
             echo '<div class="error-messages">';
             foreach ($errors as $error) {
@@ -21,7 +20,6 @@
             echo '</div>';
         }
 
-        // Display success message
         if (isset($_SESSION['success_message'])) {
             echo '<div class="success-message">' . htmlspecialchars($_SESSION['success_message']) . '</div>';
             unset($_SESSION['success_message']); // Remove the message after displaying
@@ -43,7 +41,6 @@
             <button type="submit">Register</button>
         </form>
 
-        <!-- Login Link -->
         <p>Already have an account? <a href="login.php">Log in here</a>.</p>
     </div>
     <script>

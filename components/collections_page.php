@@ -1,7 +1,5 @@
 <?php
-// collections_page.php
 
-// Ensure this file is included after `public_collections.php` which sets up the $collections array
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,11 +7,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Collections</title>
-    <!-- Link to external CSS files -->
     <link rel="stylesheet" href="../css/theme.css">
     <link rel="stylesheet" href="../css/collections.css">
 
-    <!-- <link rel="stylesheet" href="../css/navbar.css"> -->
 
 </head>
 
@@ -24,7 +20,6 @@
     <div class="collections-container">
         <div class="toggle-container">
             <form method="GET" action="collections.php">
-                <!-- Preserve search term in the form -->
                 <input type="hidden" name="search" value="<?= htmlspecialchars($search); ?>">
                 <input type="hidden" name="page" value="1"> <!-- Reset to first page on toggle -->
                 <input type="checkbox" id="show_my_collections" name="show_my_collections" value="1"
@@ -59,18 +54,15 @@
             <p>No collections found.</p>
         <?php endif; ?>
 
-        <!-- Pagination -->
         <?php if ($total_pages > 1): ?>
             <div class="pagination">
                 <?php
-                // Previous Page Link
                 if ($page > 1) {
                     echo '<a href="?page=' . ($page - 1) . '&search=' . urlencode($search) . '&show_my_collections=' . ($show_my_collections ? '1' : '0') . '">Previous</a>';
                 } else {
                     echo '<span class="disabled">Previous</span>';
                 }
 
-                // Page Number Links
                 for ($i = 1; $i <= $total_pages; $i++) {
                     if ($i == $page) {
                         echo '<span class="current">' . $i . '</span>';
@@ -79,7 +71,6 @@
                     }
                 }
 
-                // Next Page Link
                 if ($page < $total_pages) {
                     echo '<a href="?page=' . ($page + 1) . '&search=' . urlencode($search) . '&show_my_collections=' . ($show_my_collections ? '1' : '0') . '">Next</a>';
                 } else {

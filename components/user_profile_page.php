@@ -7,7 +7,6 @@
     <title>User Profile</title>
     <link rel="stylesheet" href="../css/theme.css">
     <link rel="stylesheet" href="../css/user_profile.css">
-    <!-- <link rel="stylesheet" href="../css/navbar.css"> -->
 </head>
 
 <body>
@@ -18,6 +17,7 @@
         <div class="user-details">
             <p><strong>Name:</strong> <?php echo htmlspecialchars($user['name']); ?></p>
         </div>
+
         <?php foreach ($collections as $collectionId => $collection): ?>
             <div class="collection">
                 <h3>Collection ID: <?php echo htmlspecialchars($collectionId); ?></h3>
@@ -27,6 +27,7 @@
                         <span class="tag"><?php echo htmlspecialchars($tag); ?></span>
                     <?php endforeach; ?>
                 </div>
+                
                 <div class="table-container">
                     <table>
                         <thead>
@@ -55,15 +56,21 @@
                 </div>
             </div>
         <?php endforeach; ?>
+
         <div class="export-container">
-        <div class="dropdown">
-            <button class="export-btn">Export</button>
-            <div class="dropdown-content">
-                <a href="user_profile.php?export=csv">To .CSV</a>
-                <a href="user_profile.php?export=xls">To .XLS</a>
+            <div class="add-coin">
+                <a href="/php/add_poin.php" class="add-coin-btn">Add Coin</a>
+            </div>
+            
+            <div class="dropdown">
+                <button class="export-btn">Export</button>
+                <div class="dropdown-content">
+                    <a href="user_profile.php?export=csv">To .CSV</a>
+                    <a href="user_profile.php?export=xls">To .XLS</a>
                 </div>
             </div>
         </div>
+        
     </div>
 </body>
 

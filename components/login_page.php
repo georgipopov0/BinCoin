@@ -12,7 +12,6 @@
     <div class="login-container">
         <h2>Login</h2>
 
-        <!-- Display Error Messages -->
         <?php if (isset($_SESSION['error_messages']) && !empty($_SESSION['error_messages'])): ?>
             <div class="error-messages" role="alert" aria-live="assertive">
                 <ul>

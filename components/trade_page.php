@@ -6,7 +6,6 @@
 	<title>Trade Entries</title>
 	<link rel="stylesheet" href="../css/trade.css">
 	<link rel="stylesheet" href="../css/theme.css">
-	<!-- <link rel="stylesheet" href="../css/navbar.css"> -->
 </head>
 <body>
 	<?php include '../components/header.php'; ?>
@@ -65,7 +64,6 @@
 									<input type="hidden" name="trade_id" id="popupTradeId">
 									<input type="hidden" name="coin_id" id="popupCoinId">
 									<select name="collection_id" id="collectionSelect" required>
-										<!-- Collections will be loaded dynamically -->
 									</select>
 									<br><br>
 									<button type="submit">Confirm</button>

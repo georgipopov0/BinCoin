@@ -5,11 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coin Details</title>
-    <!-- Link to external CSS files -->
     <link rel="stylesheet" href="../css/theme.css">
     <link rel="stylesheet" href="../css/coin.css">
-    <!-- <link rel="stylesheet" href="../css/navbar.css"> -->
-    <!-- Inline CSS for Additional Styling -->
     <style>
         .coin-container {
             max-width: 900px;
@@ -62,7 +59,6 @@
             margin: 0;
         }
 
-        /* Responsive Design */
         @media (max-width: 768px) {
             .coin-details {
                 flex-direction: column;
@@ -74,7 +70,6 @@
             }
         }
 
-        /* Back Button Styling */
         .back-button {
             display: inline-block;
             margin-top: 20px;
@@ -110,7 +105,6 @@
                 <p><strong>Currency:</strong> <?= htmlspecialchars($coin['currency']); ?></p>
                 <p><strong>Country:</strong> <?= htmlspecialchars($coin['country']); ?></p>
                 <p><strong>Year:</strong> <?= htmlspecialchars($coin['year']); ?></p>
-                <!-- Optionally, add more details here -->
             </div>
         </div>
         <a href="dashboard.php" class="back-button">← Back to Coins List</a>

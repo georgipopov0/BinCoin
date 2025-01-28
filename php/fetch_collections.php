@@ -25,7 +25,6 @@ $stmt->execute([$current_user]);
 header('Content-Type: application/json');
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Debugging: Print the result
 error_log(print_r($result, true)); // Log to the server error log
 echo json_encode($result);
 ?>

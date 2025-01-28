@@ -18,7 +18,6 @@ try {
 	die("Connection failed: " . $e->getMessage());
 }
 
-// Handle status update requests
 if (isset($_GET['action']) && isset($_GET['id'])) {
     $action = $_GET['action'];
     $id = $_GET['id'];
@@ -35,7 +34,6 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
     exit;
 }
 
-// Retrieve all trade entries based on filters
 $filter_status = $_GET['status'] ?? '';
 $view_type = $_GET['view'] ?? 'sent'; // Default to "sent"
 $current_user = $_SESSION['username']; // Replace with actual current user logic
@@ -60,7 +58,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_trade'])) {
     $collection_id = $_POST['collection_id'];
     $current_user =  $_SESSION['username']; // Replace with your session user logic
 
-    // Fetch the coin_id associated with the trade
     $stmt = $pdo->prepare("SELECT coin_id FROM trade WHERE id = ? AND status = 'pending'");
     $stmt->execute([$trade_id]);
     $trade = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -68,11 +65,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_trade'])) {
     if ($trade) {
         $coin_id = $trade['coin_id'];
 
-        // Update the coin's collection
         $stmt = $pdo->prepare("UPDATE coin SET collection_id = ?, owner = ? WHERE id = ?");
         $stmt->execute([$collection_id, $current_user, $coin_id]);
 
-        // Mark the trade as completed
         $stmt = $pdo->prepare("UPDATE trade SET status = 'completed' WHERE id = ?");
         $stmt->execute([$trade_id]);
 

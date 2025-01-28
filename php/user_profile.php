@@ -69,7 +69,6 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv') {
     exit;
 }
 
-// Export to XLS
 if (isset($_GET['export']) && $_GET['export'] === 'xls') {
     header("Content-Type: application/vnd.ms-excel");
     header("Content-Disposition: attachment; filename=coins.xls");

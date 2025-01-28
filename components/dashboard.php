@@ -1,33 +1,24 @@
 <?php
-// coins_page.php
 
-// Start the session at the very beginning
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Include necessary files (assuming coins.php sets up the $coins array and handles filtering)
 
-// Handle any backend logic here (e.g., fetching coins based on filters)
-// Ensure $coins is populated based on the filters applied
 
-// Determine the current page for pagination
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
 $per_page = 10; // Number of coins per page
 $total = count($coins);
 $total_pages = ceil($total / $per_page);
 
-// Ensure the current page is within valid range
 if ($page < 1) {
     $page = 1;
 } elseif ($page > $total_pages) {
     $page = $total_pages;
 }
 
-// Slice the $coins array to get only the coins for the current page
 $coins = array_slice($coins, ($page - 1) * $per_page, $per_page);
 
-// Fetch unique countries and currencies for datalist
 $unique_countries = array_unique(array_map(function($coin) {
     return $coin['country'];
 }, $coins));
@@ -36,7 +27,6 @@ $unique_currencies = array_unique(array_map(function($coin) {
     return $coin['currency'];
 }, $coins));
 
-// Assume $errors is an array of error messages if any
 $errors = $errors ?? [];
 ?>
 <!DOCTYPE html>
@@ -44,11 +34,9 @@ $errors = $errors ?? [];
 <head>
     <meta charset="UTF-8">
     <title>Coin Dashboard</title>
-    <!-- Link to external CSS files -->
     <link rel="stylesheet" href="../css/theme.css">
     <link rel="stylesheet" href="../css/dashboard.css"> <!-- Our refactored CSS file -->
 
-    <!-- Include Vanilla JS Autocomplete (Optional) -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const countryInput = document.getElementById('country');
@@ -99,7 +87,6 @@ $errors = $errors ?? [];
     <main class="container">
         <h1>Dashboard</h1>
 
-        <!-- Display Error Messages -->
         <?php if (!empty($errors)): ?>
             <div class="error-messages" role="alert" aria-live="assertive">
                 <ul>
@@ -110,7 +97,6 @@ $errors = $errors ?? [];
             </div>
         <?php endif; ?>
 
-        <!-- Search Form -->
         <section class="search-section">
             <form class="search-form" method="GET" action="coins_page.php" aria-label="Search Coins">
                 <div class="search-fields">
@@ -120,7 +106,6 @@ $errors = $errors ?? [];
                                value="<?= isset($_GET['country']) ? htmlspecialchars($_GET['country']) : ''; ?>"
                                aria-label="Country" list="country-list" autocomplete="off">
                         <datalist id="country-list">
-                            <!-- Options populated by JavaScript -->
                         </datalist>
                     </div>
 
@@ -144,7 +129,6 @@ $errors = $errors ?? [];
                                value="<?= isset($_GET['currency']) ? htmlspecialchars($_GET['currency']) : ''; ?>"
                                aria-label="Currency" list="currency-list" autocomplete="off">
                         <datalist id="currency-list">
-                            <!-- Options populated by JavaScript -->
                         </datalist>
                     </div>
 
@@ -166,7 +150,6 @@ $errors = $errors ?? [];
             </form>
         </section>
 
-        <!-- Display Active Filters -->
         <?php
         $active_filters = [];
         if (!empty($_GET['country'])) {
@@ -203,7 +186,6 @@ $errors = $errors ?? [];
             </section>
         <?php endif; ?>
 
-        <!-- Coins Display Section -->
         <section class="coins-cards-section">
             <h2 class="section-title">Coin Collection</h2> <!-- Hardcoded title for the coins -->
             <?php if (count($coins) > 0): ?>
@@ -227,14 +209,11 @@ $errors = $errors ?? [];
                     <?php endforeach; ?>
                 </div>
 
-                <!-- Pagination -->
                 <nav class="pagination" aria-label="Page navigation">
                     <?php
-                    // Determine the query parameters for pagination links
                     $query_params = $_GET;
                     unset($query_params['page']); // We'll add 'page' parameter separately
 
-                    // Previous page link
                     if ($page > 1) {
                         $query_params['page'] = $page - 1;
                         $prev_link = '?' . http_build_query($query_params);
@@ -243,10 +222,8 @@ $errors = $errors ?? [];
                         echo '<span class="pagination-link disabled">&laquo; Previous</span>';
                     }
 
-                    // Page number links with limited range
                     $range = 2; // Number of page links on either side of current page
 
-                    // First page and ellipsis
                     if ($page > ($range + 1)) {
                         $query_params['page'] = 1;
                         echo '<a href="?' . http_build_query($query_params) . '" class="pagination-link">1</a>';
@@ -255,7 +232,6 @@ $errors = $errors ?? [];
                         }
                     }
 
-                    // Page links within range
                     for ($i = max(1, $page - $range); $i <= min($total_pages, $page + $range); $i++) {
                         if ($i == $page) {
                             echo '<span class="pagination-link current">' . $i . '</span>';
@@ -266,7 +242,6 @@ $errors = $errors ?? [];
                         }
                     }
 
-                    // Last page and ellipsis
                     if ($page < ($total_pages - $range)) {
                         if ($page < ($total_pages - $range - 1)) {
                             echo '<span class="pagination-ellipsis">...</span>';
@@ -275,7 +250,6 @@ $errors = $errors ?? [];
                         echo '<a href="?' . http_build_query($query_params) . '" class="pagination-link">' . $total_pages . '</a>';
                     }
 
-                    // Next page link
                     if ($page < $total_pages) {
                         $query_params['page'] = $page + 1;
                         $next_link = '?' . http_build_query($query_params);

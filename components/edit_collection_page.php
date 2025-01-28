@@ -4,13 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit Collection - <?= htmlspecialchars($collection['name']); ?></title>
-    <!-- Link to external CSS files -->
     <!-- <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/collections.css"> -->
     <link rel="stylesheet" href="../css/theme.css">
 
-    <!-- <link rel="stylesheet" href="../css/navbar.css"> -->
-    <!-- Inline CSS for Additional Styling (Optional) -->
     <style>
         .edit-collection-container {
             max-width: 700px;
@@ -69,7 +66,6 @@
             margin-bottom: 20px;
         }
 
-        /* Protected Users Section */
         .protected-section {
             border: 1px solid #ccc;
             padding: 15px;
@@ -138,7 +134,6 @@
             background-color: #0069d9;
         }
 
-        /* Responsive Design */
         @media (max-width: 768px) {
             .edit-collection-container {
                 padding: 15px;
@@ -173,7 +168,6 @@
 
         <form action="edit_collection.php?collection_id=<?= urlencode($collection_id); ?>" method="POST"
             class="edit-collection-form">
-            <!-- CSRF Token -->
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']); ?>">
 
             <label for="name">Collection Name:</label>
@@ -186,7 +180,6 @@
                 <option value="protected" <?= ($new_access === 'protected') ? 'selected' : ''; ?>>Protected</option>
             </select>
 
-            <!-- Protected Users Section -->
             <div id="protected-section" class="protected-section"
                 style="display: <?= ($new_access === 'protected') ? 'block' : 'none'; ?>;">
                 <h3>Allowed Users</h3>
@@ -210,7 +203,6 @@
                     <?php endif; ?>
                 </ul>
 
-                <!-- Add New User -->
                 <form action="edit_collection.php?collection_id=<?= urlencode($collection_id); ?>" method="POST"
                     class="add-user-form">
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']); ?>">
@@ -224,10 +216,8 @@
         </form>
     </div>
 
-    <!-- Optional: Add Footer Component -->
     <?php // include 'components/footer.php'; ?>
 
-    <!-- JavaScript for Dynamic UI -->
     <script>
         function toggleProtectedSection() {
             const accessSelect = document.getElementById('access');

@@ -1,39 +1,28 @@
 <?php
-// collection_details.php
 
 include "./auth.php";
 
-session_start();
-
-// Check if user is logged in
 if (!isset($_SESSION['username'])) {
-    // Redirect to login page or display an error
     header("Location: login.php");
     exit();
 }
 
 require 'constants.php';
 
-// Initialize variables
 $collection_id = isset($_GET['collection_id']) ? intval($_GET['collection_id']) : 0;
 
-// Validate collection_id
 if ($collection_id <= 0) {
     die("Invalid Collection ID.");
 }
 
-// Establish database connection
 $conn = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
 
-// Check for connection errors
 if ($conn->connect_error) {
-    // Log the error and display a generic message
     error_log("Connection failed: " . $conn->connect_error);
     die("An unexpected error occurred. Please try again later.");
 }
 
-// Fetch collection details
-$collection_sql = "SELECT `id`, `name`, `user_name`, `access`, `created_at` FROM `coin_collection` WHERE `id` = ?";
+$collection_sql = "SELECT `id`, `name`, `user_name`, `access` FROM `coin_collection` WHERE `id` = ?";
 $stmt_collection = $conn->prepare($collection_sql);
 if (!$stmt_collection) {
     error_log("Prepare failed: " . $conn->error);
@@ -45,7 +34,6 @@ $stmt_collection->execute();
 $result_collection = $stmt_collection->get_result();
 
 if ($result_collection->num_rows === 0) {
-    // No collection found with the given ID
     $stmt_collection->close();
     $conn->close();
     die("Collection not found.");
@@ -54,21 +42,16 @@ if ($result_collection->num_rows === 0) {
 $collection = $result_collection->fetch_assoc();
 $stmt_collection->close();
 
-// Access Control: Check if the user has access based on collection's access level
 $has_access = false;
 
 if ($collection['access'] === 'public') {
-    // Public collections are accessible to all users
     $has_access = true;
 } elseif ($collection['access'] === 'private' && $collection['user_name'] === $_SESSION['username']) {
-    // Private collections are accessible only to the owner
     $has_access = true;
 } elseif ($collection['access'] === 'protected') {
     if ($collection['user_name'] === $_SESSION['username']) {
-        // Owners always have access to their protected collections
         $has_access = true;
     } else {
-        // Check if the current user is in the allowed users list
         $allowed_users_sql = "SELECT `user_name` FROM `access_control` WHERE `collection_id` = ?";
         $stmt_allowed = $conn->prepare($allowed_users_sql);
         if ($stmt_allowed) {
@@ -93,7 +76,6 @@ if (!$has_access) {
     die("You do not have permission to view this collection.");
 }
 
-// Fetch coins in the collection
 $coins_sql = "SELECT `id`, `cost`, `value`, `currency`, `front_path`, `back_path`, `country`, `year` FROM `coin` WHERE `coin_collection_id` = ?";
 $stmt_coins = $conn->prepare($coins_sql);
 if (!$stmt_coins) {
@@ -107,7 +89,6 @@ $result_coins = $stmt_coins->get_result();
 $coins = $result_coins->fetch_all(MYSQLI_ASSOC);
 $stmt_coins->close();
 
-// Optional: Fetch collection tags
 $tags_sql = "SELECT `name` FROM `collection_tag` WHERE `collection_id` = ?";
 $stmt_tags = $conn->prepare($tags_sql);
 if ($stmt_tags) {
@@ -120,7 +101,6 @@ if ($stmt_tags) {
     $tags = [];
 }
 
-// Optional: Fetch associated periods
 $periods_sql = "SELECT p.`name`, p.`country`, p.`from`, p.`to` FROM `period` p
                JOIN `coin_period` cp ON p.`id` = cp.`period_id`
                JOIN `coin` c ON cp.`coin_id` = c.`id`
@@ -136,7 +116,6 @@ if ($stmt_periods) {
     $periods = [];
 }
 
-// Optional: Fetch allowed users if the collection is protected
 $allowed_users = [];
 if ($collection['access'] === 'protected') {
     $allowed_users_sql = "SELECT `user_name` FROM `access_control` WHERE `collection_id` = ?";
