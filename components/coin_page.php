@@ -101,7 +101,8 @@
             <div class="image-section">
                 <img src="../<?= verify_image($coin['front_path']); ?>" alt="Coin Front"
            />
-                <img src="/assets/images/initial_data/1f.jpg" />
+                <img src="<?= verify_image($coin['back_path']); ?>" alt="Coin Back"
+                    onerror="this.onerror=null; this.src='/assets/images/f1.jpg'" />
             </div>
             <div class="info-section">
                 <p><strong>Cost:</strong> $<?= number_format($coin['cost'], 2); ?></p>

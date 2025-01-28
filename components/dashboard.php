@@ -211,11 +211,9 @@ $errors = $errors ?? [];
                     <?php foreach ($coins as $coin): ?>
                         <div class="coin-card">
                             <div class="coin-card-image-container">
-                                <img src="<?= htmlspecialchars(
-                                    !empty($coin['front_path']) && file_exists($coin['front_path']) 
-                                        ? $coin['front_path'] 
-                                        : '../assets/images/placeholder.png'
-                                ); ?>" 
+                                <img src="/<?= 
+                                         $coin['front_path'] 
+                                 ?>" 
                                 alt="Coin Image" class="coin-card-image" loading="lazy">
                             </div>
                             <div class="coin-card-content">
