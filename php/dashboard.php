@@ -98,7 +98,7 @@ switch ($sort) {
 $start_from = ($page - 1) * $results_per_page;
 
 // Build the SQL query with search and sorting
-$sql = "SELECT id, country, year, currency, value FROM coin";
+$sql = "SELECT id, country, front_path ,year, currency, value FROM coin";
 
 if (count($where_clauses) > 0) {
     $sql .= " WHERE " . implode(" AND ", $where_clauses);

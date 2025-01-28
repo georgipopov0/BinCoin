@@ -86,7 +86,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         // Registration successful
                         $success = "Registration successful! You can now log in.";
                         $insert_stmt->close();
-                        $conn->close();
 
                         // Redirect to login page with success message
                         $_SESSION['success_message'] = $success;

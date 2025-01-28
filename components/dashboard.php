@@ -212,8 +212,8 @@ $errors = $errors ?? [];
                         <div class="coin-card">
                             <div class="coin-card-image-container">
                                 <img src="<?= htmlspecialchars(
-                                    !empty($coin['front_image_path']) && file_exists($coin['front_image_path']) 
-                                        ? $coin['front_image_path'] 
+                                    !empty($coin['front_path']) && file_exists($coin['front_path']) 
+                                        ? $coin['front_path'] 
                                         : '../assets/images/placeholder.png'
                                 ); ?>" 
                                 alt="Coin Image" class="coin-card-image" loading="lazy">

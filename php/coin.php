@@ -49,7 +49,7 @@ function verify_image($path)
 {
     // Assuming 'assets' is in the same directory as 'coin_details.php'
     // Adjust the path if your structure is different
-    return file_exists($path) ? htmlspecialchars($path) : 'assets/images/placeholder.png';
+    return $path;
 }
 
 include "../components/coin_page.php"
