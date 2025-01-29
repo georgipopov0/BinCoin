@@ -98,7 +98,7 @@ $errors = $errors ?? [];
         <?php endif; ?>
 
         <section class="search-section">
-            <form class="search-form" method="GET" action="coins_page.php" aria-label="Search Coins">
+            <form class="search-form" method="GET" action="dashboard.php" aria-label="Search Coins">
                 <div class="search-fields">
                     <div class="form-group">
                         <label for="country">Country</label>
