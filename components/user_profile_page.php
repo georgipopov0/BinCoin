@@ -43,7 +43,11 @@
                         <tbody>
                             <?php foreach ($collection['coins'] as $coin): ?>
                                 <tr>
-                                    <td><?php echo htmlspecialchars($coin['coin_id']); ?></td>
+                                    <td>
+                                        <a href="coin.php?coin_id=<?= urlencode(string: $coin['coin_id']); ?>">
+                                          <?php echo htmlspecialchars($coin['coin_id']); ?>
+                                        </a>
+                                </td>
                                     <td><?php echo htmlspecialchars($coin['cost']); ?></td>
                                     <td><?php echo htmlspecialchars($coin['value']); ?></td>
                                     <td><?php echo htmlspecialchars($coin['country']); ?></td>

@@ -264,6 +264,8 @@
                             <p><strong>Year:</strong> <?= htmlspecialchars($coin['year']); ?></p>
                             <p><strong>Cost:</strong> <?= htmlspecialchars($coin['currency']) . " " . htmlspecialchars(number_format($coin['cost'], 2)); ?></p>
                             <p><strong>Value:</strong> <?= htmlspecialchars($coin['currency']) . " " . htmlspecialchars(number_format($coin['value'], 2)); ?></p>
+                            <a href="coin.php?coin_id=<?= urlencode(string: $coin['id']); ?>" class="btn view-button">View Details</a>
+
                         </div>
                     </div>
                 <?php endforeach; ?>
