@@ -54,6 +54,8 @@
 					<td><?= htmlspecialchars($trade['status']) ?></td>
 					<td><?= htmlspecialchars($trade['coin_id']) ?></td>
 					<?php if ($view_type === 'received'): ?>
+						<?php if ($trade['status'] === "pending"): ?>
+
 						<td class="action-buttons">
 							<a href="#" onclick="openCollectionPopup(<?= htmlspecialchars($trade['id']) ?>, <?= htmlspecialchars($trade['coin_id']) ?>)">
 								<button class="confirm">Confirm</button>
@@ -76,6 +78,10 @@
 								<button class="cancel">Cancel</button>
 							</a>
 						</td>
+						<?php else: ?>
+							<td>None</td>
+						<?php endif; ?>
+
 					<?php endif; ?>
 				</tr>
 				<?php endforeach; ?>

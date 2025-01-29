@@ -100,6 +100,8 @@
                     onerror="this.onerror=null; this.src='/assets/images/f1.jpg'" />
             </div>
             <div class="info-section">
+            <?php include 'trade_button.php'; ?>
+
                 <p><strong>Cost:</strong> $<?= number_format($coin['cost'], 2); ?></p>
                 <p><strong>Value:</strong> $<?= number_format($coin['value'], 2); ?></p>
                 <p><strong>Currency:</strong> <?= htmlspecialchars($coin['currency']); ?></p>
