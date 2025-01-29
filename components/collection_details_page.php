@@ -255,7 +255,7 @@
                         <img src="<?= htmlspecialchars($front_image); ?>" alt="Front Image of <?= htmlspecialchars($coin['country']); ?> Coin">
 
                         <?php
-                        $back_image =$coin['back_path'];
+                        $back_image = $coin['back_path'];
                         ?>
                         <img src="<?= htmlspecialchars($back_image); ?>" alt="Back Image of <?= htmlspecialchars($coin['country']); ?> Coin">
 

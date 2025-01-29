@@ -194,8 +194,8 @@ $errors = $errors ?? [];
                         <div class="coin-card">
                             <div class="coin-card-image-container">
                                 <img src="<?= 
-                                         $coin['front_path'] 
-                                 ?>" 
+                                         	$coin['front_path'] 
+                                 ?>"
                                 alt="Coin Image" class="coin-card-image" loading="lazy">
                             </div>
                             <div class="coin-card-content">

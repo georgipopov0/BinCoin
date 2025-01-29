@@ -39,10 +39,6 @@ if ($result->num_rows > 0) {
 $stmt->close();
 $conn->close();
 
-function verify_image($path)
-{
-    return $path;
-}
 
 include "../components/coin_page.php"
 ?>
