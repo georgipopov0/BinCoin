@@ -59,9 +59,9 @@
 
         <div class="export-container">
             <div class="add-coin">
-                <a href="/php/add_poin.php" class="add-coin-btn">Add Coin</a>
+                <a href="/php/add_coin.php" class="add-coin-btn">Add Coin</a>
             </div>
-            
+
             <div class="dropdown">
                 <button class="export-btn">Export</button>
                 <div class="dropdown-content">

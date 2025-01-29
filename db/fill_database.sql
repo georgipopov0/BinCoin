@@ -66,11 +66,13 @@ INSERT INTO `user` (`name`, `password`, `created_at`) VALUES
 ('dave', 'davepass', '2024-04-10 14:20:00'),
 ('eve', 'evepassword', '2024-05-05 16:45:00'),
 ('frank', 'franksecure', '2024-06-18 11:30:00'),
-('grace', 'gracepwd', '2024-07-22 09:15:00');
+('grace', 'gracepwd', '2024-07-22 09:15:00'),
+('ggeorgiep1', '$2y$10$9WA1ofsyhSq1.C.MPhPsje./e4IVB/tirxSeRLaFhsLYoEFNq0jSK', '2025-01-28 23:22:46');
+
 
 -- Insert More Coin Collections
 INSERT INTO `coin_collection` (`id`, `name`, `user_name`, `access`) VALUES
-(5, 'Dave\'s Ancient Coins', 'dave', 'public'),
+(5, 'Gosho\'s Ancient Coins', 'ggeorgiep1', 'public'),
 (6, 'Eve\'s Silver Collection', 'eve', 'private'),
 (7, 'Frank\'s World Coins', 'frank', 'public'),
 (8, 'Grace\'s Limited Edition', 'grace', 'private');
