@@ -27,7 +27,7 @@
                         <span class="tag"><?php echo htmlspecialchars($tag); ?></span>
                     <?php endforeach; ?>
                 </div>
-                
+
                 <div class="table-container">
                     <table>
                         <thead>
@@ -45,9 +45,9 @@
                                 <tr>
                                     <td>
                                         <a href="coin.php?coin_id=<?= urlencode(string: $coin['coin_id']); ?>">
-                                          <?php echo htmlspecialchars($coin['coin_id']); ?>
+                                            <?php echo htmlspecialchars($coin['coin_id']); ?>
                                         </a>
-                                </td>
+                                    </td>
                                     <td><?php echo htmlspecialchars($coin['cost']); ?></td>
                                     <td><?php echo htmlspecialchars($coin['value']); ?></td>
                                     <td><?php echo htmlspecialchars($coin['country']); ?></td>
@@ -74,7 +74,7 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 </body>
 
